@@ -1,0 +1,35 @@
+{
+  "name": "pageviewapi",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/server.js",
+    "dev": "nodemon src/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adityasharma-tech/AnalyzeCore.git"
+  },
+  "keywords": [
+    "analytics"
+  ],
+  "author": "Aditya Sharma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adityasharma-tech/AnalyzeCore/issues"
+  },
+  "homepage": "https://github.com/adityasharma-tech/AnalyzeCore#readme",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.3",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}
