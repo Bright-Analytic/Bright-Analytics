@@ -1,0 +1,30 @@
+{
+  "name": "mainqueue",
+  "version": "1.0.0",
+  "main": "src/worker.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/worker.js",
+    "dev": "nodemon src/worker.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adityasharma-tech/analyzecore.git"
+  },
+  "keywords": [
+    "analtics",
+    "api"
+  ],
+  "author": "Aditya SHarma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adityasharma-tech/analyzecore/issues"
+  },
+  "homepage": "https://github.com/adityasharma-tech/analyzecore#readme",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescipt": "^1.0.0"
+  }
+}

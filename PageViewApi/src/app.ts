@@ -13,8 +13,13 @@ app.use(express.urlencoded({extended: true, limit: '16kb'}))
 app.use(express.static("public"))
 app.use(cookieParser())
 
+app.get("/", (req, res)=>{
+    res.json(new ApiResponse(200, null, "System is ok."))
+})
+
 // routes import
 import mainRoute from "./routes/main.route"
+import { ApiResponse } from './lib/ApiResponse'
 
 // Routes declarations
 app.use("/api/v1/", mainRoute);
