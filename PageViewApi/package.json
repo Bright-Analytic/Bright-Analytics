@@ -1,11 +1,11 @@
 {
   "name": "pageviewapi",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "src/index.js",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/server.js",
-    "dev": "nodemon src/server.ts"
+    "start": "node dist/index.js",
+    "dev": "nodemon src/index.ts"
   },
   "repository": {
     "type": "git",
@@ -22,10 +22,14 @@
   "homepage": "https://github.com/adityasharma-tech/AnalyzeCore#readme",
   "description": "",
   "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.8",
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.3",
     "nodemon": "^3.1.9",
