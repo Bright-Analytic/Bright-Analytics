@@ -22,7 +22,9 @@
   "homepage": "https://github.com/adityasharma-tech/AnalyzeCore#readme",
   "description": "",
   "dependencies": {
+    "amqplib": "^0.10.5",
     "body-parser": "^1.20.3",
+    "buffer": "^6.0.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
@@ -31,6 +33,7 @@
     "user-agents": "^1.1.406"
   },
   "devDependencies": {
+    "@types/amqplib": "^0.10.6",
     "@types/body-parser": "^1.19.5",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
