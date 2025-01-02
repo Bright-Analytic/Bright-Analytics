@@ -4,6 +4,10 @@ import { ConsumeMessage } from 'amqplib';
 
 import { rawAnalytics } from './db/schema';
 import connectDB from './db/connect';
+import { kafkaProducer } from './lib/kafka';
+import { Producer } from 'kafkajs';
+
+let kfProducer: Producer;
 
 dotenv.config({
     path: "../.env",
@@ -11,10 +15,22 @@ dotenv.config({
 });
 
 async function onMessage(msg: ConsumeMessage | null){
-    console.log("Incomming message: ", msg?.content);
+    console.log("Incomming message: ", JSON.parse(msg?.content.toString() || "{}"));
     const db = await connectDB();
     try {
-        await db.insert(rawAnalytics).values(JSON.parse(msg?.content.toString() || "{}")).execute();
+        if(msg?.content){
+            await db.insert(rawAnalytics).values(JSON.parse(msg.content.toString())).execute();
+            await kfProducer.send({
+                topic: "analytics",
+                messages: [
+                    {
+                        value: msg.content.toString()
+                    }
+                ]
+            })
+        } else {
+            console.log("[worker]: Failed to get msg content.")
+        }
     } catch (error: any) {
         console.error("Error during insert: ", error);
     }
@@ -22,6 +38,7 @@ async function onMessage(msg: ConsumeMessage | null){
 
 (async ()=>{
     const channel = await connectRmq();
+    kfProducer = await kafkaProducer();
     channel.consume(process.env.MQ_QUEUE_NAME || "analytics", onMessage, {
         noAck: true
     })

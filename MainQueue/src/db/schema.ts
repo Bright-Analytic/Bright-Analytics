@@ -1,11 +1,13 @@
-import { boolean, integer, pgTable, varchar } from "drizzle-orm/pg-core";
+import { bigint, boolean, integer, pgTable, varchar } from "drizzle-orm/pg-core";
 
 export const rawAnalytics = pgTable("raw_analytics", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   country_code: varchar(),
   lang_region: varchar(),
   lang_language: varchar(),
-  added_unix: integer().notNull(),
+  added_unix: bigint({
+    mode: "bigint"
+  }).notNull(),
   added_date: varchar().notNull(),
   added_iso: varchar().notNull(),
   is_robot: boolean().notNull(),
