@@ -77,7 +77,10 @@ const collect = asyncHandler(async (req, res, next) => {
 
   const channel = await connectRmq();
 
-  channel.sendToQueue(process.env.RMQ_QUEUE_NAME || "analytics", dataToQueue)
+
+  console.log(process.env.RMQ_QUEUE_NAME);
+
+  channel.sendToQueue(process.env.RMQ_QUEUE_NAME || "analytics", dataToQueue);
 
   return res.status(200).json(new ApiResponse(200, null));
 });
