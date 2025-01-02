@@ -3,6 +3,6 @@ import { collect } from "../controllers/collectData";
 
 const router = Router()
 
-router.route("/collect").post(collect)
+router.route("/").post(collect)
 
 export default router;

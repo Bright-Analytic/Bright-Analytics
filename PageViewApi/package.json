@@ -22,16 +22,23 @@
   "homepage": "https://github.com/adityasharma-tech/AnalyzeCore#readme",
   "description": "",
   "dependencies": {
+    "body-parser": "^1.20.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "ua-parser-js": "^2.0.0",
+    "user-agents": "^1.1.406"
   },
   "devDependencies": {
+    "@types/body-parser": "^1.19.5",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/morgan": "^1.9.9",
     "@types/node": "^22.10.3",
+    "@types/user-agents": "^1.0.4",
+    "morgan": "^1.10.0",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"
