@@ -26,5 +26,9 @@
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "typescipt": "^1.0.0"
+  },
+  "dependencies": {
+    "@types/amqplib": "^0.10.6",
+    "amqplib": "^0.10.5"
   }
 }

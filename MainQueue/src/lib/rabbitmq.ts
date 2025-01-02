@@ -1,0 +1,2 @@
+import amqplib from 'amqplib'
+

@@ -23,7 +23,6 @@ const collect = asyncHandler(async (req, res, next) => {
   const osVersion = ua.os.version;
   const deviceType = ua.device.type;
 
-  console.log("Body: ", req.body)
   const {
 	url :{
 		hostname,

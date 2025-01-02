@@ -20,7 +20,10 @@ const connectRmq = async ()=> {
     if(channel) return channel;
     console.log("[RMQ]: Creating new channel.")
     channel = await connection.createChannel();
-    await channel.assertQueue(queue);
+    
+    await channel.assertQueue(queue, {
+        durable: true
+    });
 
     return channel;
 }    

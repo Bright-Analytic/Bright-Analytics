@@ -26,5 +26,4 @@ import { ApiResponse } from './lib/ApiResponse'
 // Routes declarations
 app.use("/api/v1/", mainRoute);
 
-
 export {app}
