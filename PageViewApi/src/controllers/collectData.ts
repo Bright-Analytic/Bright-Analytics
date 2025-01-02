@@ -13,7 +13,6 @@ const collect = asyncHandler(async (req, res, next) => {
   const addedDate = new Date().toISOString().split("T")[0];
   const addedIso = new Date().toISOString();
   const isRobot = /bot|crawler|spider|crawling/i.test(userAgent);
-  const hostname = req.hostname;
 
   const ua = uap.UAParser(req.headers["user-agent"]);
   const browserName = ua.browser.name;
@@ -23,6 +22,27 @@ const collect = asyncHandler(async (req, res, next) => {
   const deviceType = ua.device.type;
 
   console.log("Body: ", req.body)
+  const {
+	url :{
+		hostname,
+		hostnameOriginal,
+		path,
+	},
+	dimension: {
+		viewportHeight,
+		viewportWidth,
+		screenHeight,
+		screenWidth
+	},
+	source: {
+		utmSource,
+		utmMedium,
+		utmCampaign,
+		utmContent,
+		utmTerm,
+		documentReferrer
+	}
+  } = req.body;
 
   console.log({
     userAgent,
