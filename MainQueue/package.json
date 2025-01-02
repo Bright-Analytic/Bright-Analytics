@@ -4,7 +4,7 @@
   "main": "src/worker.js",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/worker.js",
+    "start": "node dist/src/worker.js",
     "dev": "nodemon src/worker.ts"
   },
   "repository": {
@@ -23,12 +23,18 @@
   "homepage": "https://github.com/adityasharma-tech/analyzecore#readme",
   "description": "",
   "devDependencies": {
+    "@types/pg": "^8.11.10",
+    "drizzle-kit": "^0.30.1",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "typescipt": "^1.0.0"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
     "@types/amqplib": "^0.10.6",
-    "amqplib": "^0.10.5"
+    "amqplib": "^0.10.5",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.38.3",
+    "pg": "^8.13.1"
   }
 }
