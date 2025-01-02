@@ -46,16 +46,17 @@ app.get("/scripts/:file", async (req: Request, res: Response) => {
   try {
     const tsContent = await fs.readFile(tsFilePath, "utf-8");
 
-    (async ()=> await transpileModule(tsContent.toString(), {
-        compilerOptions: {
-            module: ModuleKind.CommonJS,
-            target: ScriptTarget.ES2016
-        }
-    }))().then((compiledJs)=>{
-      res.type("application/javascript").send(compiledJs.outputText);
-    }).catch(()=>{
-      throw new Error("Failed to send javascript.")
-    })
+    const compiledJs = transpileModule(tsContent, {
+      compilerOptions: {
+        module: ModuleKind.CommonJS,
+        target: ScriptTarget.ES2016,
+        removeComments: true
+      }
+    });
+
+    const minifiedJs = compiledJs.outputText.replace(/\s+/g, ' ');
+
+    res.type("application/javascript").send(minifiedJs);
 
   } catch (error: any) {
     res.status(400).send({
