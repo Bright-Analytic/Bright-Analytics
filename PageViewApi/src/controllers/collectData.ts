@@ -56,6 +56,8 @@ const collect = asyncHandler(async (req, res, next) => {
     hostname,
     hostname_original: hostnameOriginal,
     path,
+    ip_address: clientIp,
+    referrer,
     utm_source: utmSource,
     utm_medium: utmMedium,
     utm_campaign: utmCampaign,
