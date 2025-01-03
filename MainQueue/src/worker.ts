@@ -21,7 +21,7 @@ async function onMessage(msg: ConsumeMessage | null){
         if(msg?.content){
             await db.insert(rawAnalytics).values(JSON.parse(msg.content.toString())).execute();
             await kfProducer.send({
-                topic: "analytics",
+                topic: "event-streams",
                 messages: [
                     {
                         value: msg.content.toString()

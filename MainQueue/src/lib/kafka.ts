@@ -16,7 +16,7 @@ const kafkaProducer = async () => {
     kafka = new Kafka({
       clientId: "analyze-core",
       brokers: ["localhost:9092"],
-      logLevel: logLevel.DEBUG,
+      logLevel: logLevel.DEBUG
     });
     producer = kafka.producer();
     await producer.connect();
