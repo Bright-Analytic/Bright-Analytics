@@ -13,4 +13,4 @@ docker run -d --name kafka -p 9092:9092 -e KAFKA_ZOOKEEPER_CONNECT=localhost:218
 ```
 
 ## Here's the full system design of this project.
-![system design](https://github.com/adityasharma-tech/AnalyzeCore/blob/main/assets/diagram.png?raw=true)
+![system design](https://github.com/adityasharma-tech/AnalyzeCore/blob/master/assets/diagram.png?raw=true)
