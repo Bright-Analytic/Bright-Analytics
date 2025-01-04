@@ -7,7 +7,7 @@ dotenv.config({
 let connection:Connection;
 let channel: Channel;
 
-const queue = process.env.RMQ_QUEUE_NAME ?? 'analytics';
+const queue = process.env.RMQ_ANALYTICS_QUEUE ?? 'jobs';
 
 const host = process.env.RMQ_HOST!
 const port = process.env.RMQ_PORT!

@@ -1,8 +1,12 @@
 import Redis from 'ioredis'
 
+let redis: Redis;
+
 const redisClient = async () => {
+    if(redis) return redis;
     try {
-        const redis: Redis = new Redis({
+        console.log("[Redis]: Creating redis client...");
+        redis = new Redis({
             port: Number(process.env.REDIS_PORT || 6379),
             host: process.env.REDIS_HOST || 'localhost',
             db: 0

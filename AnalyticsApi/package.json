@@ -27,7 +27,8 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "ioredis": "^5.4.2"
   },
   "devDependencies": {
     "@types/amqplib": "^0.10.6",

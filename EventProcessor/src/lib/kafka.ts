@@ -16,7 +16,7 @@ const kafkaConsumer = async () => {
     kafka = new Kafka({
       clientId: "analyze-core",
       brokers: ["localhost:9092"],
-      logLevel: logLevel.DEBUG,
+      logLevel: logLevel.ERROR,
     });
     consumer = kafka.consumer({
       groupId: "0"
