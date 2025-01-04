@@ -1,0 +1,16 @@
+FROM node:18.14.2-alpine
+
+WORKDIR /analytics-api
+
+COPY AnalyticsApi/*.json ./
+COPY AnalyticsApi/Types.d.ts ./
+
+COPY AnalyticsApi/src /src
+
+RUN npm install
+
+RUN npm run build
+
+RUN rm -rf /src
+
+CMD [ "npm", "start" ]

@@ -1,0 +1,17 @@
+FROM node:18.14.2-alpine
+
+WORKDIR /queue-manager
+
+COPY MainQueue/*.json ./
+COPY MainQueue/drizzle.config.ts ./
+COPY MainQueue/src /src
+
+RUN npm install
+
+RUN npx drizzle-kit generate
+RUN npx drizzle-kit migrate
+
+RUN npm run build
+RUN rm -rf /src
+
+CMD [ "npm", "start" ]

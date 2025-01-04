@@ -1,0 +1,96 @@
+version: '3.8'
+services:
+  # service 1
+  redis-service:
+    container_name: redis-service
+    image: 'redis/redis-stack-server'
+    volumes:
+      - redis-data:/data
+    ports:
+      - '6379:6379'
+  
+  # service 2
+  rabbitmq-service:
+    container_name: rmq-service
+    image: 'rabbitmq:4.0-management'
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  # service 3
+  zookeeper-service:
+    container_name: zookeeper-service
+    image: 'wurstmeister/zookeeper:latest'
+
+  # service 4
+  kafka-service:
+    container_name: kafka-service
+    image: 'wurstmeister/kafka:latest'  
+    ports:
+      - "9092:9092"
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=localhost:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
+    depends_on:
+      - zookeeper-service
+
+  # main service 1
+  analytics-api-service:
+    container_name: analytics-api-service
+    build:
+      context: ./
+      dockerfile: dockerfile-analyticsapi
+    env_file:
+      - ./.env
+    depends_on:
+      - redis-service
+      - rabbitmq-service
+
+  # main service 2
+  event-processor-service:
+    container_name: event-processor-service
+    build:
+      context: ./
+      dockerfile: dockerfile-eventprocessor
+    env_file:
+      - ./.env
+    depends_on:
+      - redis-service
+      - rabbitmq-service
+      - kafka-service
+
+  # main service 3
+  pageview-api-service:
+    container_name: pageview-api-service
+    build:
+      context: ./
+      dockerfile: dockerfile-pageviewapi
+    env_file:
+      - ./.env
+    depends_on:
+      - rabbitmq-service
+
+  # main service 4
+  queue-manager-service:
+    container_name: queue-manager-service
+    build:
+      context: ./
+      dockerfile: dockerfile-queuemanager
+    env_file:
+      - ./.env
+    depends_on:
+      - kafka-service
+      - rabbitmq-service
+
+  # main service 5
+  script-server:
+    container_name: script-server
+    build:
+      context: ./
+      dockerfile: dockerfile-script
+    env_file:
+      - ./.env
+
+volumes:
+  redis-data:
