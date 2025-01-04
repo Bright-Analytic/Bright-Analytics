@@ -22,17 +22,15 @@ async function onMessage(msg: ConsumeMessage | null) {
   try {
     if (msg?.content) {
       const {
-        hostname,
-        interval,
+        hostname
       }: {
         hostname: string;
-        interval: number;
       } = JSON.parse(msg.content.toString());
-      if (!hostname || !interval)
+      if (!hostname)
         return console.warn(
-          "[worker]: Failed to get hostname or interval from msg content."
+          "[worker]: Failed to get hostname from msg content."
         );
-      processKafkaEvents(hostname, interval);
+      processKafkaEvents(hostname);
     } else {
       console.log("[worker]: Failed to get msg content.");
     }
@@ -41,7 +39,7 @@ async function onMessage(msg: ConsumeMessage | null) {
   }
 }
 
-async function processKafkaEvents(hostname: string, interval: number) {
+async function processKafkaEvents(hostname: string) {
   console.log(`Processing kafka events for ${hostname}`);
   return new Promise((resolve, reject) => {
     kfConsumer.run({
@@ -49,12 +47,10 @@ async function processKafkaEvents(hostname: string, interval: number) {
         const eventData = JSON.parse(message.value?.toString() || "{}");
         if (eventData.hostname == hostname) {
           console.log(`Found hostname: ${eventData.hostname}`);
-          // write data to redis
-          publishEventsToRedis(eventData, interval).catch(()=>{
+          cacheEventsToRedis(eventData).catch(()=>{
             reject("Failed to publish messages.")
           });
         } else {
-          // checking what is comming here.
           console.log("Other messages: ", message.value?.toString())
         }
         resolve(null);
@@ -63,30 +59,22 @@ async function processKafkaEvents(hostname: string, interval: number) {
   });
 }
 
-async function publishEventsToRedis(data: any, interval: number) {
+async function cacheEventsToRedis(data: any) {
   rClient.set(
-    data.hostname,
+    `${data.hostname}:${data.added_unix}`,
     JSON.stringify(data),
     "EX",
-    interval,
+    3600*24,
     (err, result) => {
       if (err) {
         console.error(
-          `[Redis]: Failed to publish message ${JSON.stringify(data)}.`
+          `[Redis]: Failed to cached message ${JSON.stringify(data)}.`
         );
       } else {
-        console.log("Sucessfully publish data to redis: ", result);
+        console.log("Sucessfully cached message to redis: ", result);
       }
     }
   );
-
-  // rClient.publish(process.env.REDIS_CHANNEL!, JSON.stringify(data), (err, result)=>{
-  //   if(err){
-  //     console.error(`[Redis]: Failed to publish message ${JSON.stringify(data)}.`)
-  //   } else {
-  //     console.log("Sucessfully publish data to redis.")
-  //   }
-  // })
 }
 
 (async () => {
