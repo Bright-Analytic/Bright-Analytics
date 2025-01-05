@@ -30,7 +30,7 @@ async function onMessage(msg: ConsumeMessage | null) {
         return console.warn(
           "[worker]: Failed to get hostname from msg content."
         );
-      processKafkaEvents(hostname);
+      await processKafkaEvents(hostname);
     } else {
       console.log("[worker]: Failed to get msg content.");
     }

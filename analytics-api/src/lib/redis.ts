@@ -1,7 +1,6 @@
 import Redis from 'ioredis'
 
 const redisClient = async () => {
-    if(!global.redis) return;
     try {
         console.log("[Redis]: Creating redis client...");
         global.redis = new Redis({

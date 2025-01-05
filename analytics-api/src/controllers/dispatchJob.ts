@@ -5,13 +5,13 @@ import { connectRmq } from "../lib/rabbitmq";
 import { Buffer } from "buffer";
 
 const dispatch = asyncHandler(async (req, res, next) => {
-  const params = req.params;
-  if(!params.hostname){
+  const query = req.query;
+  if(!query.hostname){
     throw new ApiError(400, "Please provide a hostname.")
   }
 
   const dataToQueue = Buffer.from(JSON.stringify({
-    hostname: params.hostname
+    hostname: query.hostname
   }));
 
   const channel = await connectRmq();
