@@ -15,7 +15,7 @@ const kafkaProducer = async () => {
     console.log("[kafkajs]: Creating new client...")
     kafka = new Kafka({
       clientId: "analyze-core",
-      brokers: ["localhost:9092"],
+      brokers: [`${process.env.KAFKA_HOST}:${process.env.KAFKA_PORT}`],
       logLevel: logLevel.DEBUG
     });
     producer = kafka.producer();
