@@ -29,7 +29,7 @@ services:
     ports:
       - "9092:9092"
     environment:
-      - KAFKA_ZOOKEEPER_CONNECT=localhost:2181
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper-service:2181
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
       - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
     depends_on:
@@ -81,6 +81,8 @@ services:
     build:
       context: ./
       dockerfile: dockerfile-queuemanager
+      args:
+        - NEON_DB_URL=${NEON_DB_URL}
     env_file:
       - ./.env
     depends_on:

@@ -2,9 +2,7 @@ FROM node:18.14.2-alpine
 
 WORKDIR /pageview-api
 
-COPY PageViewApi/*.json ./
-
-COPY PageViewApi/src /src
+COPY PageViewApi/* ./
 
 RUN npm install
 

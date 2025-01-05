@@ -1,17 +1,17 @@
 FROM node:18.14.2-alpine
 
-WORKDIR /queue-manager
+ARG NEON_DB_URL
+ENV NEON_DB_URL=$NEON_DB_URL
 
-COPY MainQueue/*.json ./
-COPY MainQueue/drizzle.config.ts ./
-COPY MainQueue/src ./src
+WORKDIR /usr/local/queue-manager
+
+COPY MainQueue/ ./
 
 RUN npm install
 
-RUN npx drizzle-kit generate
-RUN npx drizzle-kit migrate
+# RUN npm run drizzle-push
 
 RUN npm run build
-RUN rm -rf /src
+RUN rm -rf ./src
 
 CMD [ "npm", "start" ]

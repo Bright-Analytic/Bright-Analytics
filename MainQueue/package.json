@@ -5,7 +5,8 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/src/worker.js",
-    "dev": "nodemon src/worker.ts"
+    "dev": "nodemon src/worker.ts",
+    "drizzle-push": "npx drizzle-kit generate && npx drizzle-kit migrate"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,9 @@
   "homepage": "https://github.com/adityasharma-tech/analyzecore#readme",
   "description": "",
   "devDependencies": {
+    "@types/jest": "^29.5.14",
     "@types/pg": "^8.11.10",
+    "@types/semver": "^7.5.8",
     "drizzle-kit": "^0.30.1",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",

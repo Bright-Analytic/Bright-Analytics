@@ -2,9 +2,7 @@ FROM node:18.14.2-alpine
 
 WORKDIR /event-processor
 
-COPY EventProcessor/*.json ./
-
-COPY EventProcessor/src /src
+COPY EventProcessor/* ./
 
 RUN npm install
 

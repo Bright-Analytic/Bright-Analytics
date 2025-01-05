@@ -23,6 +23,8 @@
   "homepage": "https://github.com/adityasharma-tech/analyzecore#readme",
   "description": "",
   "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/semver": "^7.5.8",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "typescipt": "^1.0.0"

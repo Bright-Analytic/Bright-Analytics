@@ -2,9 +2,7 @@ FROM node:18.14.2-alpine
 
 WORKDIR /script-generator
 
-COPY MainScript/*.json ./
-
-COPY MainScript/src /src
+COPY MainScript/* ./
 
 RUN npm install
 
