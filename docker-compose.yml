@@ -11,10 +11,9 @@ services:
   
   # service 2
   rabbitmq-service:
-    container_name: rmq-service
+    container_name: rabbitmq-service
     image: 'rabbitmq:4.0-management'
     ports:
-      - "5672:5672"
       - "15672:15672"
 
   # service 3
@@ -61,6 +60,7 @@ services:
       - redis-service
       - rabbitmq-service
       - kafka-service
+    # entrypoint: ["./wait-for-it.sh", "rabbitmq-service:5672", "--", "npm", "start"]
 
   # main service 3
   pageview-api-service:

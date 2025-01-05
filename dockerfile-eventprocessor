@@ -4,6 +4,10 @@ WORKDIR /event-processor
 
 COPY EventProcessor/* ./
 
+COPY scripts/*.sh ./
+
+RUN chmod +x ./wait-for-it.sh
+
 RUN npm install
 
 RUN npm run build
