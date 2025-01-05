@@ -7,7 +7,7 @@ services:
     volumes:
       - redis-data:/data
     ports:
-      - '6379:6379'
+      - "6379:6379"
   
   # service 2
   rabbitmq-service:
@@ -19,20 +19,33 @@ services:
   # service 3
   zookeeper-service:
     container_name: zookeeper-service
-    image: 'wurstmeister/zookeeper:latest'
+    image: 'zookeeper:latest'
 
   # service 4
   kafka-service:
     container_name: kafka-service
-    image: 'wurstmeister/kafka:latest'  
-    ports:
-      - "9092:9092"
+    image: 'apache/kafka:latest'
     environment:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper-service:2181
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
-      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
+      # - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      # - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
+      # - KAFKA_NUM_PARTITIONS=3
+      - KAFKA_NODE_ID=1
+      - KAFKA_PROCESS_ROLES=broker,controller
+      - KAFKA_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-service:9092
+      - KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CONTROLLER_QUORUM_VOTERS=1@kafka-service:9093
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
+      - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
+      - KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS=0
+      - KAFKA_NUM_PARTITIONS=3
     depends_on:
       - zookeeper-service
+    ports:
+      - "9092:9092"
 
   # main service 1
   analytics-api-service:
@@ -76,8 +89,8 @@ services:
       - "8002:8002"
 
   # main service 4
-  queue-manager-service:
-    container_name: queue-manager-service
+  queue-worker-service:
+    container_name: queue-worker-service
     build:
       context: ./
       dockerfile: dockerfile-queueworker
