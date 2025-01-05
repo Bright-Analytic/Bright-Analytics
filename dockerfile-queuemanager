@@ -4,7 +4,7 @@ WORKDIR /queue-manager
 
 COPY MainQueue/*.json ./
 COPY MainQueue/drizzle.config.ts ./
-COPY MainQueue/src /src
+COPY MainQueue/src ./src
 
 RUN npm install
 

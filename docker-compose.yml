@@ -46,6 +46,8 @@ services:
     depends_on:
       - redis-service
       - rabbitmq-service
+    ports:
+      - "8003:8003"
 
   # main service 2
   event-processor-service:
@@ -70,6 +72,8 @@ services:
       - ./.env
     depends_on:
       - rabbitmq-service
+    ports:
+      - "8002:8002"
 
   # main service 4
   queue-manager-service:
@@ -91,6 +95,8 @@ services:
       dockerfile: dockerfile-script
     env_file:
       - ./.env
+    ports:
+      - "8001:8001"
 
 volumes:
   redis-data:
