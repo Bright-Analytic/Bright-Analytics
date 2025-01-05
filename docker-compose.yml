@@ -80,7 +80,7 @@ services:
     container_name: queue-manager-service
     build:
       context: ./
-      dockerfile: dockerfile-queuemanager
+      dockerfile: dockerfile-queueworker
       args:
         - NEON_DB_URL=${NEON_DB_URL}
     env_file:

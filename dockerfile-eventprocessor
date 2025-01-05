@@ -2,7 +2,7 @@ FROM node:18.14.2-alpine
 
 WORKDIR /event-processor
 
-COPY EventProcessor/* ./
+COPY event-processor/* ./
 
 COPY scripts/*.sh ./
 

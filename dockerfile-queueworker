@@ -3,9 +3,9 @@ FROM node:18.14.2-alpine
 ARG NEON_DB_URL
 ENV NEON_DB_URL=$NEON_DB_URL
 
-WORKDIR /usr/local/queue-manager
+WORKDIR /usr/local/queue-worker
 
-COPY MainQueue/ ./
+COPY queue-worker/ ./
 
 RUN npm install
 
