@@ -1,13 +1,14 @@
 import React from "react";
 import { Funnel_Display } from "next/font/google";
 import Link from "next/link";
+import Image from "next/image";
 
 const funnelFont = Funnel_Display();
 
 export default function Hero() {
   return (
-    <section id="hero">
-      <div className="h-[100vh] w-full bg-zinc-100 dark:bg-black dark:bg-grid-white/[0.1] bg-grid-black/[0.1] relative flex items-center justify-center">
+    <section id="hero" className="bg-white">
+      <div className="h-[60vh] w-full bg-zinc-100 dark:bg-black dark:bg-grid-white/[0.1] bg-grid-black/[0.1] relative flex items-center justify-center">
         {/* Radial gradient for the container to give a faded look */}
         <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
         <div className=" flex flex-col gap-y-5 relative z-20 py-8">
@@ -56,6 +57,11 @@ export default function Hero() {
           </div>
         </div>
       </div>
+        <div className="relative w-[80vw] h-[50vh] rounded-b-none border-b-0 bg-zinc-60 mx-auto rounded-xl border overflow-hidden">
+          <Image className="object-cover" style={{
+            objectPosition: "top"
+          }} src="/screenshot.png" alt="Dashboard screenshot" fill/>
+        </div>
     </section>
   );
 }
