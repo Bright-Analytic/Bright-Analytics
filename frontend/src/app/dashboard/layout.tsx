@@ -6,9 +6,9 @@ export default function BlogLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main>
+    <main className="bg-white overflow-hidden">
       <DashNavbar />
-      {children}
+      <section className="lg:max-w-7xl mx-auto py-5">{children}</section>
     </main>
   );
 }

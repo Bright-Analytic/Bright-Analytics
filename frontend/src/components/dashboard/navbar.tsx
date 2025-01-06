@@ -5,7 +5,7 @@ export default function DashNavbar() {
   return (
     <nav
       id="dash-navbar"
-      className="fixed w-full z-50 bg-none flex backdrop-blur-sm py-3"
+      className="sticky top-0 left-0 right-0 w-full z-50 bg-none flex backdrop-blur-sm py-3"
     >
       <div className="flex border-b pb-3 justify-between max-w-7xl w-full mx-auto">
         <div className="flex justify-center gap-x-5">
