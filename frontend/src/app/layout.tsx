@@ -34,8 +34,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${poppinFont.className} antialiased`}
       >
         {children}
-      </body>
       <Footer/>
+      </body>
     </html>
   );
 }

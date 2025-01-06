@@ -1,154 +1,200 @@
-import React from 'react'
+import Link from "next/link";
+import React from "react";
+import { FaRegCircleCheck } from "react-icons/fa6";
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="bg-neutral-900 py-20">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="text-center mb-16 animate__animated animate__fadeIn">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-          Simple, Transparent Pricing
-        </h2>
-        <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
-          Choose the perfect plan for your business needs
-        </p>
+    <section id="pricing" className="bg-white py-20 justify-center flex">
+      <div className="w-[80%]">
+        <div className="flex justify-between">
+          <div className="flex flex-col text-neutral-800 gap-y-5">
+            <span className="text-4xl">
+              Find the perfect plan for your project
+            </span>
+            <span className="text-sm text-neutral-500">
+              We believe Core Analytics should be accessible to all statups and
+              companies, no matter the size.
+            </span>
+          </div>
+          <div>
+            <div className="flex bg-neutral-200 rounded-lg px-0.5 py-0.5 gap-x-0.5">
+              <button className="border px-5 h-10 flex bg-white text-sm shadow-sm text-zinc-800 rounded-lg">
+                <span className="w-2 h-2 rounded-full mr-2 bg-green-600 my-auto" />
+                <span className="my-auto">Yearly pricing</span>
+              </button>
+              <button
+                disabled
+                className="border px-5 h-10 flex disabled:bg-transparent disabled:opacity-60 bg-white text-sm shadow-sm text-zinc-800 rounded-lg"
+              >
+                <span className="w-2 h-2 rounded-full mr-2 bg-zinc-600 my-auto" />
+                <span className="my-auto">Monthly pricing</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="p-5 gap-x-10 px-5 py-10 grid grid-cols-3">
+          <div className="bg-zinc-100 pt-10 py-5 px-5 rounded-xl">
+            <div>
+              <h4 className="text-3xl mb-2">$10/mth</h4>
+              <h5 className="text-sm">Basic plan</h5>
+              <span className="text-xs text-neutral-600 -mt-2">
+                Billed anually.
+              </span>
+            </div>
+            <div className="flex flex-col gap-y-3 py-3">
+              <div className="flex gap-x-2 items-center">
+                <FaRegCircleCheck className="fill-green-600" />
+                <span className="text-sm text-zinc-500 font-thin">
+                  Access to all basic features
+                </span>
+              </div>
+              <div className="flex gap-x-2 items-center">
+                <FaRegCircleCheck className="fill-green-600" />
+                <span className="text-sm text-zinc-500 font-thin">
+                  Basic reporting and analytics
+                </span>
+              </div>
+              <div className="flex gap-x-2 items-center">
+                <FaRegCircleCheck className="fill-green-600" />
+                <span className="text-sm text-zinc-500 font-thin">
+                  Up to 10 individual users
+                </span>
+              </div>
+              <div className="flex gap-x-2 items-center">
+                <FaRegCircleCheck className="fill-green-600" />
+                <span className="text-sm text-zinc-500 font-thin">
+                  20GB individual data each user
+                </span>
+              </div>
+              <div className="flex gap-x-2 items-center">
+                <FaRegCircleCheck className="fill-green-600" />
+                <span className="text-sm text-zinc-500 font-thin">
+                  Basic chat and email support
+                </span>
+              </div>
+            </div>
+            <div className="gap-x-2 flex flex-col justify-center mt-5 gap-y-2">
+              <Link href="/dashboard">
+                <button className="bg-neutral-800 h-10 w-full text-sm shadow-sm rounded-lg text-zinc-100">
+                  Get started
+                </button>
+              </Link>
+              <Link href="/">
+                <button className="border h-10 w-full bg-white items-center text-sm shadow-sm text-zinc-800 rounded-lg">
+                  Chat to sales
+                </button>
+              </Link>
+            </div>
+          </div>
+          
+          <div className="bg-zinc-100 py-5 pt-10 px-5 rounded-xl">
+            <div>
+              <h4 className="text-3xl mb-2">$20/mth</h4>
+              <h5 className="text-sm">Business plan</h5>
+              <span className="text-xs text-neutral-600 -mt-2">
+                Billed anually.
+              </span>
+            </div>
+            <div className="flex flex-col gap-y-3 py-3">
+              <div className="flex gap-x-2 items-center">
+                <FaRegCircleCheck className="fill-green-600" />
+                <span className="text-sm text-zinc-500 font-thin">
+                 200+ integrations
+                </span>
+              </div>
+              <div className="flex gap-x-2 items-center">
+                <FaRegCircleCheck className="fill-green-600" />
+                <span className="text-sm text-zinc-500 font-thin">
+                  Advance reporting and analytics
+                </span>
+              </div>
+              <div className="flex gap-x-2 items-center">
+                <FaRegCircleCheck className="fill-green-600" />
+                <span className="text-sm text-zinc-500 font-thin">
+                  Up to 20 individual users
+                </span>
+              </div>
+              <div className="flex gap-x-2 items-center">
+                <FaRegCircleCheck className="fill-green-600" />
+                <span className="text-sm text-zinc-500 font-thin">
+                  40GB individual data each user
+                </span>
+              </div>
+              <div className="flex gap-x-2 items-center">
+                <FaRegCircleCheck className="fill-green-600" />
+                <span className="text-sm text-zinc-500 font-thin">
+                  Priority chat and email support
+                </span>
+              </div>
+            </div>
+            <div className="gap-x-2 flex flex-col justify-center mt-5 gap-y-2">
+              <Link href="/dashboard">
+                <button className="bg-neutral-800 h-10 w-full text-sm shadow-sm rounded-lg text-zinc-100">
+                  Get started
+                </button>
+              </Link>
+              <Link href="/">
+                <button className="border h-10 w-full bg-white items-center text-sm shadow-sm text-zinc-800 rounded-lg">
+                  Chat to sales
+                </button>
+              </Link>
+            </div>
+          </div>
+          <div className="bg-zinc-100 py-5 pt-10 px-5 rounded-xl">
+            <div>
+              <h4 className="text-3xl mb-2">$80/mth</h4>
+              <h5 className="text-sm">Enterprise plan</h5>
+              <span className="text-xs text-neutral-600 -mt-2">
+                Billed anually.
+              </span>
+            </div>
+            <div className="flex flex-col gap-y-3 py-3">
+              <div className="flex gap-x-2 items-center">
+                <FaRegCircleCheck className="fill-green-600" />
+                <span className="text-sm text-zinc-500 font-thin">
+                  Advance custom fields
+                </span>
+              </div>
+              <div className="flex gap-x-2 items-center">
+                <FaRegCircleCheck className="fill-green-600" />
+                <span className="text-sm text-zinc-500 font-thin">
+                  Audit log and data history
+                </span>
+              </div>
+              <div className="flex gap-x-2 items-center">
+                <FaRegCircleCheck className="fill-green-600" />
+                <span className="text-sm text-zinc-500 font-thin">
+                  ultimate individual users
+                </span>
+              </div>
+              <div className="flex gap-x-2 items-center">
+                <FaRegCircleCheck className="fill-green-600" />
+                <span className="text-sm text-zinc-500 font-thin">
+                  unlimited individual data
+                </span>
+              </div>
+              <div className="flex gap-x-2 items-center">
+                <FaRegCircleCheck className="fill-green-600" />
+                <span className="text-sm text-zinc-500 font-thin">
+                  Personal & priority service
+                </span>
+              </div>
+            </div>
+            <div className="gap-x-2 flex flex-col justify-center mt-5 gap-y-2">
+              <Link href="/dashboard">
+                <button className="bg-neutral-800 h-10 w-full text-sm shadow-sm rounded-lg text-zinc-100">
+                  Get started
+                </button>
+              </Link>
+              <Link href="/">
+                <button className="border h-10 w-full bg-white items-center text-sm shadow-sm text-zinc-800 rounded-lg">
+                  Chat to sales
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
- 
-      <div className="grid md:grid-cols-3 gap-8">
-        
-        <div className="bg-neutral-800 rounded-2xl p-8 border border-neutral-700 hover:border-blue-500 transition-colors duration-300 animate__animated animate__fadeInUp">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-xl font-semibold text-white">Starter</h3>
-            <span className="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full text-sm">Popular</span>
-          </div>
-          <div className="mb-6">
-            <span className="text-4xl font-bold text-white">$29</span>
-            <span className="text-neutral-400">/month</span>
-          </div>
-          <ul className="space-y-4 mb-8">
-            <li className="flex items-center text-neutral-300">
-              <svg className="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Up to 5,000 visitors/month
-            </li>
-            <li className="flex items-center text-neutral-300">
-              <svg className="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Basic analytics dashboard
-            </li>
-            <li className="flex items-center text-neutral-300">
-              <svg className="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              3 team members
-            </li>
-            <li className="flex items-center text-neutral-300">
-              <svg className="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Email support
-            </li>
-          </ul>
-          <button className="w-full bg-neutral-700 text-white py-3 rounded-lg hover:bg-neutral-600 transition-colors duration-300">
-            Get Started
-          </button>
-        </div>
- 
-        
-        <div className="bg-neutral-800 rounded-2xl p-8 border-2 border-blue-500 transform scale-105 animate__animated animate__fadeInUp animate__delay-1s">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-xl font-semibold text-white">Professional</h3>
-            <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">Recommended</span>
-          </div>
-          <div className="mb-6">
-            <span className="text-4xl font-bold text-white">$99</span>
-            <span className="text-neutral-400">/month</span>
-          </div>
-          <ul className="space-y-4 mb-8">
-            <li className="flex items-center text-neutral-300">
-              <svg className="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Up to 50,000 visitors/month
-            </li>
-            <li className="flex items-center text-neutral-300">
-              <svg className="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Advanced analytics features
-            </li>
-            <li className="flex items-center text-neutral-300">
-              <svg className="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              10 team members
-            </li>
-            <li className="flex items-center text-neutral-300">
-              <svg className="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Priority support
-            </li>
-            <li className="flex items-center text-neutral-300">
-              <svg className="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Custom reporting
-            </li>
-          </ul>
-          <button className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition-colors duration-300">
-            Get Started
-          </button>
-        </div>
- 
-        
-        <div className="bg-neutral-800 rounded-2xl p-8 border border-neutral-700 hover:border-blue-500 transition-colors duration-300 animate__animated animate__fadeInUp animate__delay-2s">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-xl font-semibold text-white">Enterprise</h3>
-            <span className="bg-neutral-700 text-neutral-300 px-3 py-1 rounded-full text-sm">Custom</span>
-          </div>
-          <div className="mb-6">
-            <span className="text-4xl font-bold text-white">Custom</span>
-          </div>
-          <ul className="space-y-4 mb-8">
-            <li className="flex items-center text-neutral-300">
-              <svg className="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Unlimited visitors
-            </li>
-            <li className="flex items-center text-neutral-300">
-              <svg className="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Full feature access
-            </li>
-            <li className="flex items-center text-neutral-300">
-              <svg className="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Unlimited team members
-            </li>
-            <li className="flex items-center text-neutral-300">
-              <svg className="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              24/7 dedicated support
-            </li>
-            <li className="flex items-center text-neutral-300">
-              <svg className="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Custom integration
-            </li>
-          </ul>
-          <button className="w-full bg-neutral-700 text-white py-3 rounded-lg hover:bg-neutral-600 transition-colors duration-300">
-            Contact Sales
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
-  )
+    </section>
+  );
 }

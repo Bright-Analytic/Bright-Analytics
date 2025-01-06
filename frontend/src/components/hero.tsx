@@ -2,6 +2,7 @@ import React from "react";
 import { Funnel_Display } from "next/font/google";
 import Link from "next/link";
 import Image from "next/image";
+import { FaGithub } from "react-icons/fa";
 
 const funnelFont = Funnel_Display({
   subsets: ['latin']
@@ -9,7 +10,7 @@ const funnelFont = Funnel_Display({
 
 export default function Hero() {
   return (
-    <section id="hero" className="bg-zinc-50">
+    <section id="hero" className="bg-white">
       <div className="h-[60vh] w-full bg-zinc-100 dark:bg-black dark:bg-grid-white/[0.1] bg-grid-black/[0.1] relative flex items-center justify-center">
         {/* Radial gradient for the container to give a faded look */}
         <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
@@ -31,29 +32,9 @@ export default function Hero() {
               </button>
             </Link>
             <Link href="/">
-              <button className="border px-10 h-12 flex bg-white text-sm shadow-sm text-zinc-800 rounded-lg">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width={20}
-                  height={20}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  className="my-auto mr-2"
-                >
-                  <circle
-                    cx={12}
-                    cy={12}
-                    r={10}
-                    stroke="#1C274C"
-                    strokeWidth={1.5}
-                  />
-                  <path
-                    stroke="#1C274C"
-                    strokeWidth={1.5}
-                    d="M15.414 10.941c.781.462.781 1.656 0 2.118l-4.72 2.787C9.934 16.294 9 15.71 9 14.786V9.214c0-.924.934-1.507 1.694-1.059l4.72 2.787Z"
-                  />
-                </svg>{" "}
-                <span className="my-auto">How it works</span>
+              <button className="border px-10 h-12 flex items-center gap-x-2 bg-white text-sm shadow-sm text-zinc-800 rounded-lg">
+                <FaGithub size={20}/>{" "}
+                <span className="my-auto">Github</span>
               </button>
             </Link>
           </div>
