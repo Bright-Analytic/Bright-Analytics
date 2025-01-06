@@ -11,15 +11,7 @@ import Pricing from "@/components/pricing";
 export default function Home() {
   return (
     <main>
-      <Navbar/>
-      <Hero/>
-      <Features/>
-      <Benefits/>
-      <Integrations/>
-      <Pricing/>
-      <DemoView/>
-      <Contact/>
-      <Footer/>
+      
     </main>
   );
 }
