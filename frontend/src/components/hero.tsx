@@ -3,7 +3,9 @@ import { Funnel_Display } from "next/font/google";
 import Link from "next/link";
 import Image from "next/image";
 
-const funnelFont = Funnel_Display();
+const funnelFont = Funnel_Display({
+  subsets: ['latin']
+});
 
 export default function Hero() {
   return (
