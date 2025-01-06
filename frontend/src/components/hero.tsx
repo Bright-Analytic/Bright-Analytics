@@ -9,7 +9,7 @@ const funnelFont = Funnel_Display({
 
 export default function Hero() {
   return (
-    <section id="hero" className="bg-white">
+    <section id="hero" className="bg-zinc-50">
       <div className="h-[60vh] w-full bg-zinc-100 dark:bg-black dark:bg-grid-white/[0.1] bg-grid-black/[0.1] relative flex items-center justify-center">
         {/* Radial gradient for the container to give a faded look */}
         <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
@@ -59,7 +59,7 @@ export default function Hero() {
           </div>
         </div>
       </div>
-        <div className="relative w-[80vw] h-[50vh] rounded-b-none border-b-0 bg-zinc-60 mx-auto rounded-xl border overflow-hidden">
+        <div className="relative shadow-xl w-[80vw] h-[60vh] rounded-b-none border-b-0 bg-zinc-60 mx-auto rounded-xl border overflow-hidden">
           <Image className="object-cover" style={{
             objectPosition: "top"
           }} src="/screenshot.png" alt="Dashboard screenshot" fill/>
