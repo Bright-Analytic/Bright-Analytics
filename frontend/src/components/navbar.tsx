@@ -1,110 +1,85 @@
+import Image from "next/image";
 import React from "react";
+import svgToDataUri from "mini-svg-data-uri";
 
 export default function Navbar() {
   return (
     <nav
       id="navbar"
-      className="fixed w-full z-50 bg-neutral-900/95 backdrop-blur-sm border-b border-neutral-800"
+      className="fixed w-full z-50 bg-none flex backdrop-blur-sm py-5"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex-shrink-0 flex items-center">
-            <span className="text-2xl font-bold text-white">
-              Analytics<span className="text-blue-500">Pro</span>
-            </span>
+      <div className="flex justify-between max-w-7xl w-full mx-auto">
+        <div className="flex justify-center gap-x-5">
+          <div className="flex">
+            <Image
+              alt="CoreAnalytics"
+              src={"/android-chrome-512x512.png"}
+              width={35}
+              height={30}
+              style={{
+                objectFit: "contain",
+              }}
+            />
           </div>
-
-          <div className="hidden md:flex items-center space-x-8">
-            <a
-              href="#features"
-              className="text-gray-300 hover:text-white transition-colors duration-200"
-            >
-              Features
-            </a>
-            <a
-              href="#pricing"
-              className="text-gray-300 hover:text-white transition-colors duration-200"
-            >
-              Pricing
-            </a>
-            <a
-              href="#about"
-              className="text-gray-300 hover:text-white transition-colors duration-200"
-            >
-              About
-            </a>
-            <a
-              href="#contact"
-              className="text-gray-300 hover:text-white transition-colors duration-200"
-            >
-              Contact
-            </a>
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-200">
-              Get Started
-            </button>
-          </div>
-
-          <div className="md:hidden flex items-center">
-            <button
-              id="mobile-menu-button"
-              className="text-gray-300 hover:text-white"
-            >
+          <div className="flex gap-x-8 text-zinc-800 my-auto text-sm">
+            <span className="flex gap-x-3">
+              Products{" "}
               <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+                width={10}
+                height={10}
+                viewBox="0 -4.5 24 24"
+                className="my-auto"
               >
+                <title>{"chevron-down"}</title>
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                  id="hamburger"
-                ></path>
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                  id="close"
-                  className="hidden"
-                ></path>
+                  fill="#000"
+                  fillRule="evenodd"
+                  d="M23.405.63a2.123 2.123 0 0 0-3.004 0l-8.385 9.25L3.63.63a2.123 2.123 0 0 0-3.004 0 2.132 2.132 0 0 0 0 3.01l9.755 10.76c.449.45 1.048.65 1.635.61.587.04 1.185-.16 1.634-.61l9.755-10.76c.829-.83.829-2.18 0-3.01"
+                />
               </svg>
-            </button>
+            </span>
+            <span className="flex gap-x-3">
+              Features{" "}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width={10}
+                height={10}
+                viewBox="0 -4.5 24 24"
+                className="my-auto"
+              >
+                <title>{"chevron-down"}</title>
+                <path
+                  fill="#000"
+                  fillRule="evenodd"
+                  d="M23.405.63a2.123 2.123 0 0 0-3.004 0l-8.385 9.25L3.63.63a2.123 2.123 0 0 0-3.004 0 2.132 2.132 0 0 0 0 3.01l9.755 10.76c.449.45 1.048.65 1.635.61.587.04 1.185-.16 1.634-.61l9.755-10.76c.829-.83.829-2.18 0-3.01"
+                />
+              </svg>
+            </span>
+            <span className="flex gap-x-3">
+              Resources{" "}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width={10}
+                height={10}
+                viewBox="0 -4.5 24 24"
+                className="my-auto"
+              >
+                <title>{"chevron-down"}</title>
+                <path
+                  fill="#000"
+                  fillRule="evenodd"
+                  d="M23.405.63a2.123 2.123 0 0 0-3.004 0l-8.385 9.25L3.63.63a2.123 2.123 0 0 0-3.004 0 2.132 2.132 0 0 0 0 3.01l9.755 10.76c.449.45 1.048.65 1.635.61.587.04 1.185-.16 1.634-.61l9.755-10.76c.829-.83.829-2.18 0-3.01"
+                />
+              </svg>
+            </span>
+            <span>Pricing</span>
+            <span>Company</span>
           </div>
         </div>
-
-        <div id="mobile-menu" className="hidden md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a
-              href="#features"
-              className="block text-gray-300 hover:text-white transition-colors duration-200 py-2"
-            >
-              Features
-            </a>
-            <a
-              href="#pricing"
-              className="block text-gray-300 hover:text-white transition-colors duration-200 py-2"
-            >
-              Pricing
-            </a>
-            <a
-              href="#about"
-              className="block text-gray-300 hover:text-white transition-colors duration-200 py-2"
-            >
-              About
-            </a>
-            <a
-              href="#contact"
-              className="block text-gray-300 hover:text-white transition-colors duration-200 py-2"
-            >
-              Contact
-            </a>
-            <button className="w-full mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-200">
-              Get Started
-            </button>
-          </div>
+        <div className="gap-x-2 flex">
+          <button className="border px-5 bg-white py-1.5 text-sm shadow-sm text-zinc-800 rounded-lg">Log in</button>
+          <button className="bg-neutral-800 px-5 py-1.5 text-sm shadow-sm rounded-lg text-zinc-100">7-day free trial</button>
         </div>
       </div>
     </nav>
