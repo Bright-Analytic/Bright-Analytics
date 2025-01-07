@@ -8,6 +8,21 @@ services:
       - redis-data:/data
     ports:
       - "6379:6379"
+
+  # service n
+  pulsar-service:
+    container_name: pulsar-service
+    image: 'apachepulsar/pulsar:latest'
+    ports:
+      - "6650:6650"
+      - "8080:8080"
+    volumes:
+      - pulsardata:/pulsar/data
+      - pulsarconf:/pulsar/conf
+    command: bin/pulsar standalone
+    # Optional: Add restart policy
+    restart: unless-stopped
+
   
   # service 2
   rabbitmq-service:
@@ -115,3 +130,5 @@ services:
 
 volumes:
   redis-data:
+  pulsardata:
+  pulsarconf:

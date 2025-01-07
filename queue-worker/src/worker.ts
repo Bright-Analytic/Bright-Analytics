@@ -6,10 +6,13 @@ import { kafkaConsumer, kafkaProducer } from "./lib/kafka";
 import { Consumer, Producer } from "kafkajs";
 import { Channel } from "amqplib";
 import { connectRmq } from "./lib/rabbitmq";
+import Pulsar from "pulsar-client";
+import { pulsarProducer } from "./lib/pulsar";
 
 let kfConsumer: Consumer;
 let kfProducer: Producer;
 let rmqChannel: Channel;
+let pProducer: Pulsar.Producer;
 
 dotenv.config({
   path: "../.env",
@@ -36,7 +39,7 @@ const consumeRabbitMq = async () => {
       }
     );
   } catch (error) {
-    console.error(`Error during consuming rabbitmq :`, error)
+    console.error(`Error during consuming rabbitmq :`, error);
   }
 };
 
@@ -50,36 +53,41 @@ const consumerKafka = async () => {
       heartbeat,
       isRunning,
       isStale,
-      commitOffsetsIfNecessary
+      commitOffsetsIfNecessary,
     }) => {
-
-        if(batch.topic != "raw-analytics"){
-            console.log(`Wrong topic: ${batch.topic}`)
-            return;
-        }
+      if (batch.topic != "raw-analytics") {
+        console.log(`Wrong topic: ${batch.topic}`);
+        return;
+      }
 
       console.log(`Processing batch of ${batch.messages.length} messages`);
 
       const incomingMessages = [];
+      pProducer = await pulsarProducer();
 
       for (const message of batch.messages) {
         if (!isRunning() || isStale()) break;
         incomingMessages.push(JSON.parse(message.value?.toString() || "{}"));
+        if (message.value != null)
+          pProducer.send({
+            data: message.value,
+          });
       }
       try {
         await db.insert(rawAnalytics).values(incomingMessages).execute();
-        await kfProducer.send({
-          topic: "event-streams",
-          messages: batch.messages.map((e)=>({ key: e.key, value: e.value })),
-        });
-        console.log(`Send all batch messages to event-streams`)
-        for(const message of batch.messages){
-            if (!isRunning() || isStale()) break;
-            resolveOffset(message.offset)
+        // await kfProducer.send({
+        //   topic: "event-streams",
+        //   messages: batch.messages.map((e)=>({ key: e.key, value: e.value })),
+        // });
+
+        console.log(`Send all batch messages to event-streams`);
+        for (const message of batch.messages) {
+          if (!isRunning() || isStale()) break;
+          resolveOffset(message.offset);
         }
         await heartbeat();
       } catch (error: any) {
-        console.error(`Error during processing batch.: ${error.message}`)
+        console.error(`Error during processing batch.: ${error.message}`);
       }
     },
   });
@@ -88,7 +96,7 @@ const consumerKafka = async () => {
 (async () => {
   rmqChannel = await connectRmq();
   kfConsumer = await kafkaConsumer({
-    groupId: "0",
+    groupId: "local-grp",
     maxWaitTimeInMs: 1024,
   });
   kfProducer = await kafkaProducer();
@@ -97,5 +105,5 @@ const consumerKafka = async () => {
 
   await Promise.all([consumerKafka(), consumeRabbitMq()]);
 
-  console.log("Exiting...")
+  console.log("Exiting...");
 })();

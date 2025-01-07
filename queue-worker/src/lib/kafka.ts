@@ -45,7 +45,7 @@ const kafkaConsumer = async (config?: ConsumerConfig) => {
   if(consumer) return consumer;
 
   try {
-    consumer = kafka.consumer({groupId: '0', ...config});
+    consumer = kafka.consumer({groupId: 'local-grp', ...config});
     await consumer.connect()
     return consumer;
   } catch (error: any) {

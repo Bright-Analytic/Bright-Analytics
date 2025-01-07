@@ -19,14 +19,11 @@ const kafkaConsumer = async (config?: ConsumerConfig) => {
       logLevel: logLevel.ERROR,
     });
     consumer = kafka.consumer({
-      groupId: "0",
+      groupId: "local-grp",
       ...config
     });
-    await consumer.connect()
-    await consumer.subscribe({
-      topic: "event-streams",
-      fromBeginning: true
-    })
+    await consumer.connect();
+    await consumer.subscribe({ topics: ['event-streams'], fromBeginning: true })
     return consumer;
   } catch (error) {
     console.error("Error during connect kafka: ", error);
