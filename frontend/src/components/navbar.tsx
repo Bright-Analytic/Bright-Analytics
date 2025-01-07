@@ -87,6 +87,21 @@ export default function Navbar() {
               </button>
             </SignInButton>
           </SignedOut>
+          
+          <SignedIn>
+            <div className="h-10 w-10">
+                <UserButton
+                appearance={{
+                  elements: {
+                  userButtonAvatarBox: {
+                    width: '2rem',
+                    height: '2rem',
+                  },
+                  },
+                }}
+                />
+            </div>
+          </SignedIn>
           <Link
             href="https://github.com/adityasharma-tech/AnalyzeCore.git"
             target="_blank"
@@ -96,13 +111,9 @@ export default function Navbar() {
               Github
             </button>
           </Link>
-          <SignedIn>
-            <UserButton>
-              <button className="bg-neutral-800 px-5 py-1.5 text-sm shadow-sm rounded-lg text-zinc-100">
+                {/* <button className="bg-neutral-800 px-5 py-1.5 text-sm shadow-sm rounded-lg text-zinc-100">
                 Dashboard
-              </button>
-            </UserButton>
-          </SignedIn>
+                </button> */}
         </div>
       </div>
     </nav>

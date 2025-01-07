@@ -2,10 +2,12 @@ import React from "react";
 import { Funnel_Display } from "next/font/google";
 import Link from "next/link";
 import Image from "next/image";
-import { FaGithub } from "react-icons/fa";
+import { FaRegCirclePlay } from "react-icons/fa6";
+import { SignedOut, SignIn, SignInButton, SignUpButton, useUser } from "@clerk/nextjs";
+import DashClientBtn from "./dash-client-btn";
 
 const funnelFont = Funnel_Display({
-  subsets: ['latin']
+  subsets: ["latin"],
 });
 
 export default function Hero() {
@@ -26,25 +28,35 @@ export default function Hero() {
             compromise visitor privacy for data.
           </h2>
           <div className="gap-x-2 flex justify-center py-5">
-            <Link href="/dashboard">
-              <button className="bg-neutral-800 h-12 px-10 text-sm shadow-sm rounded-lg text-zinc-100">
-                Dashboard
-              </button>
-            </Link>
+            <SignedOut>
+              <SignUpButton mode="modal">
+                <button className="bg-neutral-800 h-12 px-10 text-sm shadow-sm rounded-lg text-zinc-100">
+                  7-day free trial
+                </button>
+              </SignUpButton>
+            </SignedOut>
+            <DashClientBtn/>
+            
             <Link href="/">
               <button className="border px-10 h-12 flex items-center gap-x-2 bg-white text-sm shadow-sm text-zinc-800 rounded-lg">
-                <FaGithub size={20}/>{" "}
-                <span className="my-auto">Github</span>
+                <FaRegCirclePlay size={20} />{" "}
+                <span className="my-auto">How it works</span>
               </button>
             </Link>
           </div>
         </div>
       </div>
-        <div className="relative shadow-xl w-[80vw] h-[60vh] rounded-b-none border-b-0 bg-zinc-60 mx-auto rounded-xl border overflow-hidden">
-          <Image className="object-cover" style={{
-            objectPosition: "top"
-          }} src="/screenshot.png" alt="Dashboard screenshot" fill/>
-        </div>
+      <div className="relative shadow-xl w-[80vw] h-[60vh] rounded-b-none border-b-0 bg-zinc-60 mx-auto rounded-xl border overflow-hidden">
+        <Image
+          className="object-cover"
+          style={{
+            objectPosition: "top",
+          }}
+          src="/screenshot.png"
+          alt="Dashboard screenshot"
+          fill
+        />
+      </div>
     </section>
   );
 }
