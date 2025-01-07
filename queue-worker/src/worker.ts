@@ -16,12 +16,12 @@ dotenv.config({
   debug: true,
 });
 
-const consumeRabbitMq = () => {
+const consumeRabbitMq = async () => {
   console.log(
     `Running rabbitmq consumer for queue ${process.env.RMQ_PRE_ANALYTICS_QUEUE}`
   );
   try {
-    rmqChannel.consume(
+    await rmqChannel.consume(
       process.env.RMQ_PRE_ANALYTICS_QUEUE!,
       (message) => {
         if (message != null) {
@@ -35,7 +35,9 @@ const consumeRabbitMq = () => {
         noAck: true,
       }
     );
-  } catch (error) {}
+  } catch (error) {
+    console.error(`Error during consuming rabbitmq :`, error)
+  }
 };
 
 const consumerKafka = async () => {
@@ -48,6 +50,7 @@ const consumerKafka = async () => {
       heartbeat,
       isRunning,
       isStale,
+      commitOffsetsIfNecessary
     }) => {
 
         if(batch.topic != "raw-analytics"){
@@ -61,17 +64,23 @@ const consumerKafka = async () => {
 
       for (const message of batch.messages) {
         if (!isRunning() || isStale()) break;
-
         incomingMessages.push(JSON.parse(message.value?.toString() || "{}"));
-
-        resolveOffset(message.offset);
       }
-      await db.insert(rawAnalytics).values(incomingMessages).execute();
-      await kfProducer.send({
-        topic: "event",
-        messages: batch.messages,
-      });
-      await heartbeat();
+      try {
+        await db.insert(rawAnalytics).values(incomingMessages).execute();
+        await kfProducer.send({
+          topic: "event-streams",
+          messages: batch.messages.map((e)=>({ key: e.key, value: e.value })),
+        });
+        console.log(`Send all batch messages to event-streams`)
+        for(const message of batch.messages){
+            if (!isRunning() || isStale()) break;
+            resolveOffset(message.offset)
+        }
+        await heartbeat();
+      } catch (error: any) {
+        console.error(`Error during processing batch.: ${error.message}`)
+      }
     },
   });
 };
@@ -86,5 +95,7 @@ const consumerKafka = async () => {
 
   await kfConsumer.subscribe({ topic: "raw-analytics", fromBeginning: true });
 
-  await Promise.all([consumerKafka, consumeRabbitMq]);
+  await Promise.all([consumerKafka(), consumeRabbitMq()]);
+
+  console.log("Exiting...")
 })();

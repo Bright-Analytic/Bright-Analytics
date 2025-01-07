@@ -42,25 +42,34 @@ async function onMessage(msg: ConsumeMessage | null) {
 
 async function processKafkaEvents(hostname: string) {
   console.log(`Processing kafka events for ${hostname}`);
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     kfConsumer.run({
-      eachMessage: async ({ topic, message, partition }) => {
-        const eventData = JSON.parse(message.value?.toString() || "{}");
-        if (eventData.hostname == hostname) {
-          console.log(`Found hostname: ${eventData.hostname}`);
-          cacheEventsToRedis(eventData).catch(() => {
-            reject("Failed to publish messages.");
-          });
-        } else {
-          console.log("Other messages: ", message.value?.toString());
+      eachBatch: async ({batch, heartbeat, isRunning, isStale, commitOffsetsIfNecessary, pause, resolveOffset, uncommittedOffsets}) => {
+        if(batch.topic != "event-streams") return;
+        try {
+          for(const message of batch.messages){
+            console.log("message come to kafka")
+            if(!isRunning() || isStale()) return;
+            if(message.key?.toString() == hostname.trim()){
+              await cacheEventsToRedis(JSON.parse(message.value?.toString() || "{}"))
+              console.log(`Cached data to redis for hostname: ${hostname}`)
+              resolveOffset(message.offset);
+            }
+          }
+        } catch (error) {
+          console.error("Error processing message:", error);
         }
-        resolve(null);
+        console.log("Resolving...");
+        await heartbeat();
+        await kfConsumer.stop();
       },
-    });
+    }).then(resolve).catch(reject)
   });
 }
 
 async function cacheEventsToRedis(data: any) {
+  console.log("Data come to event processor:",data);
+  return;
   try {
     const timeBucket = Math.floor(data.added_unix / (60 * 60 *24));
     const key = `meta:${data.hostname}:${timeBucket}`
@@ -155,8 +164,12 @@ async function cacheEventsToRedis(data: any) {
 (async () => {
   const channel = await connectRmq();
   rClient = await redisClient();
-  kfConsumer = await kafkaConsumer();
-  channel.consume(process.env.RMQ_ANALYTICS_QUEUE!, onMessage, {
+  kfConsumer = await kafkaConsumer({
+    groupId: "0",
+    heartbeatInterval: 2000,
+    sessionTimeout: 6000
+  });
+  await channel.consume(process.env.RMQ_ANALYTICS_QUEUE!, onMessage, {
     noAck: true,
   });
 })();

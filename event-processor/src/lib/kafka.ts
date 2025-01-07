@@ -1,4 +1,4 @@
-import { Consumer, Kafka, logLevel } from "kafkajs";
+import { Consumer, ConsumerConfig, Kafka, logLevel } from "kafkajs";
 import dotenv from "dotenv";
 dotenv.config({
   path: "../.env",
@@ -7,7 +7,7 @@ dotenv.config({
 let kafka: Kafka;
 let consumer: Consumer;
 
-const kafkaConsumer = async () => {
+const kafkaConsumer = async (config?: ConsumerConfig) => {
   if (kafka && consumer) {
     return consumer;
   }
@@ -19,7 +19,8 @@ const kafkaConsumer = async () => {
       logLevel: logLevel.ERROR,
     });
     consumer = kafka.consumer({
-      groupId: "0"
+      groupId: "0",
+      ...config
     });
     await consumer.connect()
     await consumer.subscribe({
