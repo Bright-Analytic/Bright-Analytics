@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
+import { ApiResponse } from './lib/ApiResponse'
 
 const app = express()
 
@@ -21,7 +22,6 @@ app.get("/", (req, res)=>{
 
 // routes import
 import mainRoute from "./routes/main.route"
-import { ApiResponse } from './lib/ApiResponse'
 
 // Routes declarations
 app.use("/api/v1/", mainRoute);

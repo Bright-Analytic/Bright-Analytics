@@ -1,45 +1,53 @@
-import dotenv from 'dotenv'
-import { connectRmq } from './lib/rabbitmq';
-import { ConsumeMessage } from 'amqplib';
+import dotenv from "dotenv";
 
-import { rawAnalytics } from './db/schema';
-import connectDB from './db/connect';
-import { kafkaProducer } from './lib/kafka';
-import { Producer } from 'kafkajs';
+import { rawAnalytics } from "./db/schema";
+import connectDB from "./db/connect";
+import { kafkaConsumer, kafkaProducer } from "./lib/kafka";
+import { Consumer, Producer } from "kafkajs";
 
+let kfConsumer: Consumer;
 let kfProducer: Producer;
 
 dotenv.config({
-    path: "../.env",
-    debug: true
+  path: "../.env",
+  debug: true,
 });
 
-async function onMessage(msg: ConsumeMessage | null){
-    console.log("Incomming message: ", JSON.parse(msg?.content.toString() || "{}"));
-    const db = await connectDB();
-    try {
-        if(msg?.content){
-            await db.insert(rawAnalytics).values(JSON.parse(msg.content.toString())).execute();
-            await kfProducer.send({
-                topic: "event-streams",
-                messages: [
-                    {
-                        value: msg.content.toString()
-                    }
-                ]
-            })
-        } else {
-            console.log("[worker]: Failed to get msg content.")
-        }
-    } catch (error: any) {
-        console.error("Error during insert: ", error);
-    }
-}
+(async () => {
+  const db = await connectDB();
+  kfConsumer = await kafkaConsumer({
+    groupId: "0",
+    maxWaitTimeInMs: 1024,
+  });
+  kfProducer = await kafkaProducer();
 
-(async ()=>{
-    const channel = await connectRmq();
-    kfProducer = await kafkaProducer();
-    channel.consume(process.env.MQ_QUEUE_NAME || "analytics", onMessage, {
-        noAck: true
-    })
+  await kfConsumer.subscribe({ topic: "raw-analytics", fromBeginning: true });
+
+  await kfConsumer.run({
+    eachBatch: async ({
+      batch,
+      resolveOffset,
+      heartbeat,
+      isRunning,
+      isStale,
+    }) => {
+      console.log(`Processing batch of ${batch.messages.length} messages`);
+
+      const incomingMessages = [];
+
+      for (const message of batch.messages) {
+        if (!isRunning() || isStale()) break;
+
+        incomingMessages.push(JSON.parse(message.value?.toString() || "{}"));
+
+        resolveOffset(message.offset);
+      }
+      await db.insert(rawAnalytics).values(incomingMessages).execute();
+      await kfProducer.send({
+        topic: 'event-streams',
+        messages: batch.messages
+      })
+      await heartbeat();
+    },
+  });
 })();
