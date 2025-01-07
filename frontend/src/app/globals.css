@@ -70,3 +70,8 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+::selection {
+  color: white;
+  background-color: black;
+}
