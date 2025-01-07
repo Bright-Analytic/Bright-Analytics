@@ -1,6 +1,8 @@
 import Image from "next/image";
 import React from "react";
-import svgToDataUri from "mini-svg-data-uri";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { FaGithub } from "react-icons/fa";
+import Link from "next/link";
 
 export default function Navbar() {
   return (
@@ -78,8 +80,29 @@ export default function Navbar() {
           </div>
         </div>
         <div className="gap-x-2 flex">
-          <button className="border px-5 bg-white py-1.5 text-sm shadow-sm text-zinc-800 rounded-lg">Log in</button>
-          <button className="bg-neutral-800 px-5 py-1.5 text-sm shadow-sm rounded-lg text-zinc-100">7-day free trial</button>
+          <SignedOut>
+            <SignInButton mode="modal">
+              <button className="border px-5 bg-white h-8 text-sm shadow-sm text-zinc-800 rounded-lg">
+                Log in
+              </button>
+            </SignInButton>
+          </SignedOut>
+          <Link
+            href="https://github.com/adityasharma-tech/AnalyzeCore.git"
+            target="_blank"
+          >
+            <button className="bg-neutral-800 h-8 flex items-center justify-center gap-x-2 px-5 text-sm shadow-sm rounded-lg text-zinc-100">
+              <FaGithub size={14} />
+              Github
+            </button>
+          </Link>
+          <SignedIn>
+            <UserButton>
+              <button className="bg-neutral-800 px-5 py-1.5 text-sm shadow-sm rounded-lg text-zinc-100">
+                Dashboard
+              </button>
+            </UserButton>
+          </SignedIn>
         </div>
       </div>
     </nav>

@@ -3,6 +3,14 @@ import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/footer";
 
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton
+} from '@clerk/nextjs'
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -29,6 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <ClerkProvider>
     <html lang="en" className="bg-white">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${poppinFont.className} antialiased`}
@@ -37,5 +46,6 @@ export default function RootLayout({
       <Footer/>
       </body>
     </html>
+    </ClerkProvider>
   );
 }
