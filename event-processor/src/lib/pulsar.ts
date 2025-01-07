@@ -4,7 +4,6 @@ let client: Pulsar.Client;
 let consumer: Pulsar.Consumer;
 
 const pulsarConsumer = async ()=>{
-    if(client && consumer) return { client, consumer }
     const hostname = process.env.PULSAR_HOSTNAME!
     const port = process.env.PULSAR_PORT!
     try {
