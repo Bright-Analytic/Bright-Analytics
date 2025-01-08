@@ -4,11 +4,7 @@ import "./globals.css";
 import Footer from "@/components/footer";
 
 import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton
+  ClerkProvider
 } from '@clerk/nextjs'
 
 const geistSans = Geist({
