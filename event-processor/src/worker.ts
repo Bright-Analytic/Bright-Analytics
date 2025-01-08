@@ -1,8 +1,6 @@
 import dotenv from "dotenv";
 import { ConsumeMessage } from "amqplib";
 import { connectRmq } from "./lib/rabbitmq";
-import { Consumer } from "kafkajs";
-import { kafkaConsumer } from "./lib/kafka";
 import { redisClient } from "./lib/redis";
 import Redis from "ioredis";
 import { hash } from "./lib/utils";
@@ -13,7 +11,6 @@ dotenv.config({
   debug: true,
 });
 
-let kfConsumer: Consumer;
 let rClient: Redis;
 
 
@@ -115,12 +112,6 @@ async function cacheEventsToRedis(arr: any[]) {
 (async () => {
   const channel = await connectRmq();
   rClient = await redisClient();
-  kfConsumer = await kafkaConsumer({
-    groupId: "local-grp-2",
-    heartbeatInterval: 3000,
-    sessionTimeout: 15000,
-    allowAutoTopicCreation: true,
-  });
   // await kfConsumer.describeGroup();
   await channel.consume(process.env.RMQ_ANALYTICS_QUEUE!, onMessage, {
     noAck: true,
