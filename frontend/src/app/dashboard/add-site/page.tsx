@@ -8,6 +8,7 @@ import { IoCodeSlash } from "react-icons/io5";
 import { RiNextjsFill } from "react-icons/ri";
 import HtmlHelp from "@/components/dashboard/tech-help/html";
 import NextjsHelp from "@/components/dashboard/tech-help/nextjs";
+import { useRouter } from "next/navigation";
 
 enum Selections {
   HTML,
@@ -15,8 +16,11 @@ enum Selections {
 }
 
 export default function AddSite() {
+  const router = useRouter()
+  const [hostname, setHostname] = useState<string>("");
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    router.push(`/dashboard/install/?hostname=${hostname.trim()}`)
   }
 
   const [selected, setSelected] = useState<Selections>(Selections.HTML);
@@ -37,7 +41,7 @@ export default function AddSite() {
   return (
     <section className="min-h-screen lg:px-20 md:px-10 sm:px-5 px-3 sm:py-10 py-3 bg-white">
       <div className="flex md:flex-row flex-col gap-y-5 justify-between">
-        <div className="md:w-[30%]">
+        <div className="lg:w-[35%]">
           <div>
             <span className="text-3xl text-neutral-700">
               Add a new website.
@@ -52,11 +56,11 @@ export default function AddSite() {
             className="flex w-full max-w-sm items-center space-x-2 my-5"
             onSubmit={handleSubmit}
           >
-            <Input type="email" placeholder="www.brightanalytics.com" />
-            <Button type="submit">Add website</Button>
+            <Input value={hostname} onChange={(e)=>setHostname(e.target.value)} type="text" required placeholder="www.brightanalytics.com" />
+            <Button type="submit">I installed the script</Button>
           </form>
         </div>
-        <div className="md:w-[70%] md:px-10">
+        <div className="md:w-[65%] md:px-10">
           <div>
             <span className="text-3xl text-neutral-700">
               Install the Bright Analytics script

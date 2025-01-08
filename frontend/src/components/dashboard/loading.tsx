@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import Lottie from "react-lottie-player";
 import dashLoadingJson from "@/assets/lottie/dash-loading.json";
