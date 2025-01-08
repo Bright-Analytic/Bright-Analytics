@@ -2,7 +2,7 @@
 import DashLoading from "@/components/dashboard/loading";
 import DashNavbar from "@/components/dashboard/navbar";
 import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 export default function BlogLayout({
   children,
@@ -10,12 +10,11 @@ export default function BlogLayout({
   children: React.ReactNode;
 }) {
   const user = useUser();
-  const navigation = useRouter();
   if(!user.isLoaded){
     return <DashLoading/>
   }
   if(!user.isSignedIn){
-    return navigation.push('/');
+    redirect('/')
   }
   return (
     <main className="bg-white overflow-hidden">

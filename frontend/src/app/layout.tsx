@@ -40,7 +40,7 @@ export default function RootLayout({
       >
         {children}
       <Footer/>
-      <script async={true} src="https://scripts.adityasharma.live/script.js"></script>
+      {/* <script async={true} src="https://scripts.adityasharma.live/script.js"></script> */}
       </body>
     </html>
     </ClerkProvider>

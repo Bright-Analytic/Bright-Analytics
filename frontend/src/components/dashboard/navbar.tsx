@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import React from "react";
@@ -32,9 +32,20 @@ export default function DashNavbar() {
           <span>Reporting</span>
           <span>Users</span>
         </div>
-        <SignedIn>
-          <UserButton/>
-        </SignedIn>
+        <div className="w-12 h-12 flex justify-center flex-col">
+          <SignedIn>
+            <UserButton
+              appearance={{
+                elements: {
+                  userButtonAvatarBox: {
+                    width: "2rem",
+                    height: "2rem",
+                  },
+                },
+              }}
+            />
+          </SignedIn>
+        </div>
       </div>
     </nav>
   );

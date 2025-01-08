@@ -1,12 +1,14 @@
 import BpCheckbox from "@/components/dashboard/bp-checkbox";
 import Chart from "@/components/dashboard/chart";
 import { FormControlLabel } from "@mui/material";
+import { redirect } from "next/navigation";
 import React from "react";
 import { FaAngleLeft, FaAngleRight, FaAngleDown } from "react-icons/fa6";
 import { MdOutlinePhoneAndroid, MdOutlineTabletAndroid } from "react-icons/md";
 import { RiComputerLine } from "react-icons/ri";
 
 export default function Dashboard() {
+  redirect('/dashboard/add-site')
   return (
     <div className="">
       <div className="flex justify-between w-full">
