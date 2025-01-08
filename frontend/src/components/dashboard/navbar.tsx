@@ -1,9 +1,12 @@
 "use client";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
+import { IoAddOutline } from "react-icons/io5";
 
 export default function DashNavbar() {
+  const router = useRouter();
   return (
     <nav
       id="dash-navbar"
@@ -43,7 +46,15 @@ export default function DashNavbar() {
                   },
                 },
               }}
-            />
+            >
+              <UserButton.MenuItems>
+                <UserButton.Action
+                  label="Add site"
+                  labelIcon={<IoAddOutline />}
+                  onClick={() => router.push("/dashboard/add-site")}
+                />
+              </UserButton.MenuItems>
+            </UserButton>
           </SignedIn>
         </div>
       </div>
