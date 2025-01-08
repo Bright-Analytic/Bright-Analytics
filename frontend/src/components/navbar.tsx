@@ -86,32 +86,34 @@ export default function Navbar() {
                 Log in
               </button>
             </SignInButton>
+            <Link
+              href="https://github.com/adityasharma-tech/AnalyzeCore.git"
+              target="_blank"
+            >
+              <button className="bg-neutral-800 md:h-8 h-10 px-8 flex items-center justify-center gap-x-2 md:px-5 text-sm shadow-sm rounded-lg text-zinc-100">
+                <FaGithub size={14} />
+                Github
+              </button>
+            </Link>
           </SignedOut>
-          
           <SignedIn>
-            <div className="h-10 w-10">
+            <div className="flex justify-center flex-col">
+              <div className="flex">
                 <UserButton
-                appearance={{
-                  elements: {
-                  userButtonAvatarBox: {
-                    width: '2rem',
-                    height: '2rem',
-                  },
-                  },
-                }}
+                  appearance={{
+                    elements: {
+                      userButtonAvatarBox: {
+                        width: "2rem",
+                        height: "2rem",
+                      },
+                    },
+                  }}
                 />
+              </div>
             </div>
           </SignedIn>
-          <Link
-            href="https://github.com/adityasharma-tech/AnalyzeCore.git"
-            target="_blank"
-          >
-            <button className="bg-neutral-800 md:h-8 h-10 px-8 flex items-center justify-center gap-x-2 md:px-5 text-sm shadow-sm rounded-lg text-zinc-100">
-              <FaGithub size={14} />
-              Github
-            </button>
-          </Link>
-                {/* <button className="bg-neutral-800 px-5 py-1.5 text-sm shadow-sm rounded-lg text-zinc-100">
+
+          {/* <button className="bg-neutral-800 px-5 py-1.5 text-sm shadow-sm rounded-lg text-zinc-100">
                 Dashboard
                 </button> */}
         </div>

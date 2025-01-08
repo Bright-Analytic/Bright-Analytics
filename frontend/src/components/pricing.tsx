@@ -4,9 +4,9 @@ import { FaRegCircleCheck } from "react-icons/fa6";
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="bg-white py-20 justify-center flex">
-      <div className="w-[80%]">
-        <div className="flex justify-between">
+    <section id="pricing" className="bg-white md:py-20 py-10 justify-center md:flex block">
+      <div className="md:w-[80%] px-5 md:px-0">
+        <div className="md:flex block justify-between">
           <div className="flex flex-col text-neutral-800 gap-y-5">
             <span className="text-4xl">
               Find the perfect plan for your project
@@ -16,15 +16,15 @@ export default function Pricing() {
               companies, no matter the size.
             </span>
           </div>
-          <div>
-            <div className="flex bg-neutral-200 rounded-lg px-0.5 py-0.5 gap-x-0.5">
-              <button className="border px-5 h-10 flex bg-white text-sm shadow-sm text-zinc-800 rounded-lg">
+          <div className="md:py-0 py-5">
+            <div className="grid bg-neutral-200 rounded-lg md:flex grid-cols-2 px-0.5 py-0.5 gap-x-0.5">
+              <button className="border px-5 h-10 flex md:w-auto w-full justify-center bg-white text-sm shadow-sm text-zinc-800 rounded-lg">
                 <span className="w-2 h-2 rounded-full mr-2 bg-green-600 my-auto" />
                 <span className="my-auto">Yearly pricing</span>
               </button>
               <button
                 disabled
-                className="border px-5 h-10 flex disabled:bg-transparent disabled:opacity-60 bg-white text-sm shadow-sm text-zinc-800 rounded-lg"
+                className="border px-5 h-10 flex md:w-auto w-full justify-center disabled:bg-transparent disabled:opacity-60 bg-white text-sm shadow-sm text-zinc-800 rounded-lg"
               >
                 <span className="w-2 h-2 rounded-full mr-2 bg-zinc-600 my-auto" />
                 <span className="my-auto">Monthly pricing</span>
@@ -32,7 +32,7 @@ export default function Pricing() {
             </div>
           </div>
         </div>
-        <div className="p-5 gap-x-10 px-5 py-10 grid grid-cols-3">
+        <div className="p-5 gap-x-10 px-5 py-10 grid md:grid-cols-3 grid-cols-1 gap-y-5">
           <div className="bg-zinc-100 pt-10 py-5 px-5 rounded-xl">
             <div>
               <h4 className="text-3xl mb-2">$10/mth</h4>
@@ -87,7 +87,8 @@ export default function Pricing() {
             </div>
           </div>
           
-          <div className="bg-zinc-100 py-5 pt-10 px-5 rounded-xl">
+          <div className="bg-zinc-100 border-2 border-black py-5 pt-10 px-5 rounded-xl relative">
+            <span className="bg-black rounded-full px-4 py-1 text-white text-xs absolute -top-3 right-3">Popular</span>
             <div>
               <h4 className="text-3xl mb-2">$20/mth</h4>
               <h5 className="text-sm">Business plan</h5>

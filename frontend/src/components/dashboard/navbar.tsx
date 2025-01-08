@@ -7,7 +7,7 @@ export default function DashNavbar() {
   return (
     <nav
       id="dash-navbar"
-      className="sticky top-0 left-0 right-0 w-full z-50 bg-none flex backdrop-blur-sm py-3"
+      className="sticky top-0 left-0 right-0 w-full z-50 bg-none flex backdrop-blur-sm py-3 md:px-0 px-5"
     >
       <div className="flex border-b pb-3 justify-between max-w-7xl w-full mx-auto">
         <div className="flex justify-center gap-x-5">
@@ -23,7 +23,7 @@ export default function DashNavbar() {
             />
           </div>
         </div>
-        <div className="flex gap-x-8 text-zinc-800 my-auto text-sm">
+        <div className="md:flex hidden gap-x-8 text-zinc-800 my-auto text-sm">
           <span>Home</span>
           <span>Products</span>
           <span>Analytics</span>
