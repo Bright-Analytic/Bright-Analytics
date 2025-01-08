@@ -12,18 +12,18 @@ const funnelFont = Funnel_Display({
 
 export default function Hero() {
   return (
-    <section id="hero" className="bg-white">
-      <div className="h-[60vh] w-full bg-zinc-100 dark:bg-black dark:bg-grid-white/[0.1] bg-grid-black/[0.1] relative flex items-center justify-center">
+    <section id="hero" className="bg-white lg:mt-0 mt-10">
+      <div className="md:h-[60vh] h-[70vh] w-full bg-zinc-100 dark:bg-black dark:bg-grid-white/[0.1] bg-grid-black/[0.1] relative flex items-center justify-center">
         {/* Radial gradient for the container to give a faded look */}
         <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
         <div className=" flex flex-col gap-y-5 relative z-20 py-8">
           <h1
             style={funnelFont.style}
-            className="bg-clip-text text-transparent bg-gradient-to-b dark:from-neutral-200 dark:to-neutral-500 from-neutral-700 to-neutral-900 font-bold text-6xl text-center leading-tight"
+            className="bg-clip-text text-5xl text-wrap text-transparent bg-gradient-to-b dark:from-neutral-200 dark:to-neutral-500 from-neutral-700 to-neutral-900 font-bold md:text-6xl text-center leading-tight"
           >
             Advance website analytics <br /> without all the bad stuff
           </h1>
-          <h2 className="text-zinc-500">
+          <h2 className="text-zinc-500 text-center px-5 md:px-0">
             Core Analytics is a Google Analytics alternative that doesn't
             compromise visitor privacy for data.
           </h2>
@@ -46,7 +46,7 @@ export default function Hero() {
           </div>
         </div>
       </div>
-      <div className="relative shadow-xl w-[80vw] h-[60vh] rounded-b-none border-b-0 bg-zinc-60 mx-auto rounded-xl border overflow-hidden">
+      <div className="relative shadow-xl h-[23vh] w-[80vw] md:h-[60vh] rounded-b-none border-b-0 bg-zinc-60 mx-auto rounded-xl border overflow-hidden">
         <Image
           className="object-cover"
           style={{

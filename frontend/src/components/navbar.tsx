@@ -8,7 +8,7 @@ export default function Navbar() {
   return (
     <nav
       id="navbar"
-      className="fixed w-full z-50 bg-none flex backdrop-blur-sm py-5"
+      className="fixed w-full z-50 top-0 bg-none flex backdrop-blur-sm md:py-5 py-3 px-3 md:px-0"
     >
       <div className="flex justify-between max-w-7xl w-full mx-auto">
         <div className="flex justify-center gap-x-5">
@@ -23,7 +23,7 @@ export default function Navbar() {
               }}
             />
           </div>
-          <div className="flex gap-x-8 text-zinc-800 my-auto text-sm">
+          <div className="md:flex hidden gap-x-8 text-zinc-800 my-auto text-sm">
             <span className="flex gap-x-3">
               Products{" "}
               <svg
@@ -82,7 +82,7 @@ export default function Navbar() {
         <div className="gap-x-2 flex">
           <SignedOut>
             <SignInButton mode="modal">
-              <button className="border px-5 bg-white h-8 text-sm shadow-sm text-zinc-800 rounded-lg">
+              <button className="border px-5 bg-white md:h-8 h-10 text-sm shadow-sm text-zinc-800 rounded-lg">
                 Log in
               </button>
             </SignInButton>
@@ -106,7 +106,7 @@ export default function Navbar() {
             href="https://github.com/adityasharma-tech/AnalyzeCore.git"
             target="_blank"
           >
-            <button className="bg-neutral-800 h-8 flex items-center justify-center gap-x-2 px-5 text-sm shadow-sm rounded-lg text-zinc-100">
+            <button className="bg-neutral-800 md:h-8 h-10 px-8 flex items-center justify-center gap-x-2 md:px-5 text-sm shadow-sm rounded-lg text-zinc-100">
               <FaGithub size={14} />
               Github
             </button>
