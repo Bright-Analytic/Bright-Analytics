@@ -55,20 +55,23 @@ export async function POST(req: NextRequest) {
     `Received webhook with ID ${evt.data.id} and event type of ${eventType}`
   );
 
-  if (eventType === "user.created") {
+  if (eventType == "user.created") {
+    console.log(evt.data.primary_email_address_id, evt.data.username);
     if (evt.data.primary_email_address_id && evt.data.username) {
       await connectDb();
-      await global.db
-        .insert(usersTable)
-        .values({
-          name: `${evt.data.first_name} ${evt.data.last_name}`,
-          email: evt.data.primary_email_address_id,
-          username: evt.data.username
-        })
-        .returning();
+      await global.db.insert(usersTable).values({
+        name: `${evt.data.first_name} ${evt.data.last_name}`,
+        email: evt.data.primary_email_address_id,
+        username: evt.data.username,
+      });
       return NextResponse.json(
         { success: true, message: "Webhook called successfully." },
         { status: 200 }
+      );
+    } else {
+      return NextResponse.json(
+        { success: false, message: "username or email_id not found." },
+        { status: 400 }
       );
     }
   }
