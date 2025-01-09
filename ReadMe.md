@@ -28,5 +28,5 @@ docker run -p 6379:6379 -it --rm redis/redis-stack-server
 
 ## Here's the full system design of this project.
 
-![system design](https://github.com/adityasharma-tech/AnalyzeCore/blob/master/assets/diagram.png?raw=true)
+![system design](https://github.com/adityasharma-tech/AnalyzeCore/blob/master/assets/diagram.jpg?raw=true)
 
