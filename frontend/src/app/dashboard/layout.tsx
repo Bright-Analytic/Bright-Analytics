@@ -8,7 +8,7 @@ export default function BlogLayout({
   return (
     <main className="bg-white overflow-hidden">
       <DashNavbar />
-      <section className="lg:max-w-7xl px-5 md:px-0 mx-auto py-5">{children}</section>
+      <section className="lg:max-w-7xl px-5 md:px-0 mx-auto md:py-5 py-3">{children}</section>
     </main>
   );
 }
