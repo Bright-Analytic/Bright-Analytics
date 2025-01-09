@@ -7,7 +7,7 @@ import {
 } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-async function isHostnameGloballyVerified(hostname: string) {
+export async function isHostnameGloballyVerified(hostname: string) {
   const result = await db
     .select({
       hostname: hostnamesTable.host,

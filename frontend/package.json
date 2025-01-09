@@ -33,6 +33,7 @@
     "react-icons": "^5.4.0",
     "react-lottie-player": "^2.1.0",
     "styled-components": "^6.1.14",
+    "svix": "^1.45.1",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"
   },
