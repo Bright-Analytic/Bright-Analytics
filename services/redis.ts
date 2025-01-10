@@ -1,4 +1,4 @@
-import Redis from "../event-processor/node_modules/ioredis"
+import Redis from "../analytics-api/node_modules/ioredis"
 
 /**
  * Represents a Redis client.
@@ -27,22 +27,10 @@ export class RedisClient {
     constructor(port: number, host: string) {
         this.host = host;
         this.port = port;
-        this.loadRedis();
-    }
-
-    /**
-     * Loads the Redis instance with the specified configuration.
-     * @private
-     */
-    private loadRedis() {
-        try {
-            this.redis = new Redis({
-                port: this.port,
-                host: this.host,
-                db: 0
-            });
-        } catch (error: any) {
-            console.error(`Error during loading redis: ${error.message}\n`, error);
-        }
+        this.redis = new Redis({
+            port: this.port,
+            host: this.host,
+            db: 0
+        });
     }
 }

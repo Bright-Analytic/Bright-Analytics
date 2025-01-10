@@ -23,6 +23,7 @@
   "homepage": "https://github.com/adityasharma-tech/AnalyzeCore#readme",
   "description": "",
   "dependencies": {
+    "@clerk/express": "^1.3.33",
     "@redis/time-series": "^1.1.0",
     "amqplib": "^0.10.5",
     "buffer": "^6.0.3",

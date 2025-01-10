@@ -2,7 +2,7 @@ import amqplib, {
   Channel,
   Connection,
   credentials,
-} from "../pageview-api/node_modules/amqplib";
+} from "amqplib";
 
 export class RabbitMq {
   private connection: Connection;
@@ -23,10 +23,9 @@ export class RabbitMq {
     this.port = port;
     this.username = username;
     this.password = password;
-    this.connectRmq();
   }
 
-  private async connectRmq() {
+  public async connectRmq() {
     try {
       this.connection = await amqplib.connect(
         `amqp://${this.hostname}:${this.port}`,

@@ -1,8 +1,8 @@
 import { ApiError } from "../lib/ApiError";
 import { ApiResponse } from "../lib/ApiResponse";
 import { asyncHandler } from "../lib/asyncHandler";
-import { connectRmq } from "../lib/rabbitmq";
 import { Buffer } from "buffer";
+import { RabbitMq } from "../../../services/rabbitmq";
 
 const dispatch = asyncHandler(async (req, res, next) => {
   const query = req.query;
@@ -14,12 +14,14 @@ const dispatch = asyncHandler(async (req, res, next) => {
     hostname: query.hostname
   }));
 
-  const channel = await connectRmq();
+  const rmq = new RabbitMq(process.env.RMQ_HOST!, process.env.RMQ_PORT!, process.env.RMQ_USERNAME!, process.env.RMQ_PASSWORD!);
+  await rmq.connectRmq()
+  await rmq.loadChannel(process.env.RMQ_ANALYTICS_QUEUE!, {
+    durable: true
+  })
 
-  console.log(process.env.RMQ_ANALYTICS_QUEUE);
-
-  channel.sendToQueue(
-    process.env.RMQ_ANALYTICS_QUEUE || "jobs",
+  await rmq.channel.sendToQueue(
+    process.env.RMQ_ANALYTICS_QUEUE!,
     dataToQueue
   );
 

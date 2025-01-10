@@ -2,6 +2,8 @@ import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
+import { ApiResponse } from './lib/ApiResponse'
+import { clerkMiddleware } from '@clerk/express'
 
 const app = express()
 
@@ -15,15 +17,20 @@ app.use(express.json({limit: '16kb'}))
 app.use(express.urlencoded({extended: true, limit: '16kb'}))
 app.use(cookieParser())
 
+app.use(clerkMiddleware({
+    debug: true
+}))
+
 app.get("/", (req, res)=>{
     res.json(new ApiResponse(200, null, "System is healthy 😎."))
 })
 
 // routes import
 import mainRoute from "./routes/main.route"
-import { ApiResponse } from './lib/ApiResponse'
+import hostRoute from "./routes/host.route"
 
 // Routes declarations
 app.use("/api/v1/", mainRoute);
+app.use("/api/v1/host", hostRoute);
 
 export {app}
