@@ -1,15 +1,22 @@
 "use client";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
-import { redirect, useSearchParams } from "next/navigation";
+import { use } from 'react'
+import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";
 
-export default function InstallSite() {
-  const searchParams = useSearchParams();
+export default function InstallSite({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+  const { hostname } = use(searchParams)
   const user = useUser();
   const router = useRouter();
-  if (!searchParams.get("hostname")) {
+  if (!hostname) {
     redirect("/dashboard");
   }
 
@@ -17,10 +24,10 @@ export default function InstallSite() {
     console.log(user.user?.username)
     if(!user.user?.username) return;
     const result = await axios.post('/api/check-install-script', {
-      hostname: searchParams.get('hostname'),
+      hostname,
       username: user.user?.username
     })
-    if(result.data.data.scriptExists) router.push(`/dashboard/@${searchParams.get('hostname')}`)
+    if(result.data.data.scriptExists) router.push(`/dashboard/@${hostname}`)
   }, [axios, searchParams, router]);
 
   React.useEffect(() => {
@@ -51,7 +58,7 @@ export default function InstallSite() {
       </style>
       <div className="text-2xl gap-x-2 flex">
         <span className="text-neutral-800">Analytics</span>
-        <span className="text-neutral-500">{searchParams.get("hostname")}</span>
+        <span className="text-neutral-500">{hostname}</span>
       </div>
       <div className="my-5 flex flex-col gap-y-5 text-neutral-600">
         <span className="text-xl text-neutral-800">
