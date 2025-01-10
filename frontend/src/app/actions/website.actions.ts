@@ -54,10 +54,18 @@ export async function addUnverifiedHostname(
 
   console.log(username, user)
 
-  const [newHostname] = await global.db
+  let [newHostname] = await global.db
     .insert(uvHostnameTable)
     .values({ host: uvHostname })
-    .returning({ id: uvHostnameTable.id });
+    .returning({ id: uvHostnameTable.id })
+    .onConflictDoNothing();
+
+  if(!newHostname){
+    [newHostname] = await global.db
+    .select({ host: uvHostnameTable.host, id: uvHostnameTable.id })
+    .from(uvHostnameTable)
+    .where(eq(uvHostnameTable.host, uvHostname))
+  }
 
   if (!newHostname || !newHostname.id || !user || !user.id) {
     console.error(newHostname, user)

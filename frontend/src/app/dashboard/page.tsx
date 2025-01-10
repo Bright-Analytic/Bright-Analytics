@@ -23,19 +23,19 @@ export default function Dashboard() {
       </div>
       <div className="md:flex block my-10">
         <div id="stats" className="text-neutral-800 md:block grid grid-cols-2 gap-x-2 gap-y-2">
-          <div className="flex flex-col mt-1 shadow-md bg-zinc-200/10 md:rotate-1 border-b-2 border-neutral-300 pl-3 min-w-36 py-3">
+          <div className="flex flex-col mt-1 shadow-md bg-zinc-200/10 border-b-2 border-neutral-300 pl-3 min-w-36 py-3">
             <span className="text-sm text-neutral-500">visitors</span>
             <span className="text-4xl">22</span>
           </div>
-          <div className="flex flex-col mt-1 shadow-md bg-zinc-200/10 md:rotate-1 border-b-2 border-neutral-300 pl-3 min-w-36 py-3">
+          <div className="flex flex-col mt-1 shadow-md bg-zinc-200/10 border-b-2 border-neutral-300 pl-3 min-w-36 py-3">
             <span className="text-sm text-neutral-500">pageviews</span>
             <span className="text-4xl">181</span>
           </div>
-          <div className="flex flex-col mt-1 shadow-md bg-zinc-200/10 md:rotate-1 border-b-2 border-neutral-300 pl-3 min-w-36 py-3">
+          <div className="flex flex-col mt-1 shadow-md bg-zinc-200/10 border-b-2 border-neutral-300 pl-3 min-w-36 py-3">
             <span className="text-sm text-neutral-500">time on page</span>
             <span className="text-4xl">14s</span>
           </div>
-          <div className="flex flex-col mt-1 shadow-md bg-zinc-200/10 md:rotate-1 border-b-2 border-neutral-300 pl-3 min-w-36 py-3">
+          <div className="flex flex-col mt-1 shadow-md bg-zinc-200/10 border-b-2 border-neutral-300 pl-3 min-w-36 py-3">
             <span className="text-sm text-neutral-500 flex">
               <div className="h-2 w-2 my-auto mr-1 animate-pulse rounded-full bg-rose-600" />{" "}
               live pageviews

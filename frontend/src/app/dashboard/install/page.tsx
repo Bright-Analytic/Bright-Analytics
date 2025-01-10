@@ -1,4 +1,5 @@
 "use client";
+import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { redirect, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -6,14 +7,18 @@ import React, { useCallback } from "react";
 
 export default function InstallSite() {
   const searchParams = useSearchParams();
+  const user = useUser();
   const router = useRouter();
   if (!searchParams.get("hostname")) {
     redirect("/dashboard");
   }
 
   const checkInstallScript = useCallback(async () => {
+    console.log(user.user?.username)
+    if(!user.user?.username) return;
     const result = await axios.post('/api/check-install-script', {
-      url: `https://${searchParams.get('hostname')}`
+      hostname: searchParams.get('hostname'),
+      username: user.user?.username
     })
     if(result.data.data.scriptExists) router.push(`/dashboard/@${searchParams.get('hostname')}`)
   }, [axios, searchParams, router]);

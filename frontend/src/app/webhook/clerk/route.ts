@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
       await connectDb();
       await global.db.insert(usersTable).values({
         name: `${evt.data.first_name} ${evt.data.last_name}`,
-        email: evt.data.primary_email_address_id,
+        email: evt.data.email_addresses.filter((value)=>(value.id == evt.data.primary_email_address_id)),
         username: evt.data.username,
       });
       return NextResponse.json(
