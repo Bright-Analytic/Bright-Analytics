@@ -12,7 +12,7 @@ export default function Pricing() {
               Find the perfect plan for your project
             </span>
             <span className="text-sm text-neutral-500">
-              We believe Core Analytics should be accessible to all statups and
+              We believe Bright Analytics should be accessible to all statups and
               companies, no matter the size.
             </span>
           </div>

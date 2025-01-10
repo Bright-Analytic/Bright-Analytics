@@ -23,11 +23,11 @@ const poppinFont = Poppins({
 export const metadata: Metadata = {
   title: "Bright Analytics",
   description:
-    "Core Analytics is a Google Analytics alternative that doesn't compromise visitor privacy for data.",
+    "Bright Analytics is a Google Analytics alternative that doesn't compromise visitor privacy for data.",
   twitter: {
     title: "Bright Analytics",
     description:
-      "Core Analytics is a Google Analytics alternative that doesn't compromise visitor privacy for data.",
+      "Bright Analytics is a Google Analytics alternative that doesn't compromise visitor privacy for data.",
     images: ["/home-screenshot.png"],
   },
   openGraph: {
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     type: "website",
     countryName: "India",
     description:
-      "Core Analytics is a Google Analytics alternative that doesn't compromise visitor privacy for data.",
+      "Bright Analytics is a Google Analytics alternative that doesn't compromise visitor privacy for data.",
     title: "Bright Analytics",
     emails: "hey@adityasharma.live",
   },

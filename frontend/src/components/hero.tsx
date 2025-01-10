@@ -21,10 +21,10 @@ export default function Hero() {
             style={funnelFont.style}
             className="bg-clip-text text-5xl text-wrap text-transparent bg-gradient-to-b dark:from-neutral-200 dark:to-neutral-500 from-neutral-700 to-neutral-900 font-bold md:text-6xl text-center leading-tight"
           >
-            Advance website analytics <br /> without all the bad stuff
+            Advance website analytics<br />without all the bad stuff
           </h1>
           <h2 className="text-zinc-500 text-center px-5 md:px-0">
-            Core Analytics is a Google Analytics alternative that doesn't
+            Bright Analytics is a Google Analytics alternative that doesn't
             compromise visitor privacy for data.
           </h2>
           <div className="gap-x-2 flex justify-center py-5">
