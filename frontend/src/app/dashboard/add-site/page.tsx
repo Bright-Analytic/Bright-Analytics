@@ -9,6 +9,8 @@ import { RiNextjsFill } from "react-icons/ri";
 import HtmlHelp from "@/components/dashboard/tech-help/html";
 import NextjsHelp from "@/components/dashboard/tech-help/nextjs";
 import { useRouter } from "next/navigation";
+import { addUnverifiedHostname, isHostnameGloballyVerified } from "@/app/actions/website.actions";
+import { useUser } from "@clerk/nextjs";
 
 enum Selections {
   HTML,
@@ -16,11 +18,31 @@ enum Selections {
 }
 
 export default function AddSite() {
-  const router = useRouter()
+  const router = useRouter();
   const [hostname, setHostname] = useState<string>("");
+  const [loading, setLoading] =useState(false);
+  const [showError, setShowError] = useState(false);
+  const user = useUser();
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    router.push(`/dashboard/install/?hostname=${hostname.trim()}`)
+    setLoading(true);
+    try {
+      const result = await isHostnameGloballyVerified(hostname);
+      console.log("Result is here: ", result)
+      if(!result){
+        if(user.user?.username != null)
+        await addUnverifiedHostname(user.user.username, hostname.trim());
+        router.push(`/dashboard/install/?hostname=${hostname.trim()}`);
+      } else {
+        setShowError(true)
+      }
+    } catch (error) {
+      console.error("Error during submitting new site:", error)
+    } finally {
+      setLoading(false);
+      setTimeout(()=>setShowError(false), 10000)
+    }
   }
 
   const [selected, setSelected] = useState<Selections>(Selections.HTML);
@@ -56,9 +78,19 @@ export default function AddSite() {
             className="flex w-full max-w-sm items-center space-x-2 my-5"
             onSubmit={handleSubmit}
           >
-            <Input value={hostname} onChange={(e)=>setHostname(e.target.value)} type="text" required placeholder="www.brightanalytics.com" />
+            <Input
+              value={hostname}
+              disabled={loading}
+              onChange={(e) => setHostname(e.target.value)}
+              type="text"
+              required
+              placeholder="www.brightanalytics.com"
+            />
             <Button type="submit">I installed the script</Button>
           </form>
+          {showError ? <div>
+            <span className="text-sm text-rose-600"><span className="underline text-base">Error</span>: Hostname is already registered by other user.</span>
+          </div> : null}
         </div>
         <div className="md:w-[65%] md:px-10">
           <div>
@@ -93,7 +125,11 @@ export default function AddSite() {
             ))}
           </div>
           <div className="my-5">
-            {selected === Selections.HTML ? <HtmlHelp/> : selected === Selections.NEXTJS ? <NextjsHelp/> : null}
+            {selected === Selections.HTML ? (
+              <HtmlHelp />
+            ) : selected === Selections.NEXTJS ? (
+              <NextjsHelp />
+            ) : null}
           </div>
         </div>
       </div>

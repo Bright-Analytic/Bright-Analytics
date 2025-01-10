@@ -1,5 +1,5 @@
-# Core Analytics
-Core Analytics for a smarter tomorrow.
+# Bright Analytics
+Bright Analytics for a smarter tomorrow.
 
 ## Environment Setup
 ### latest RabbitMQ 4.0.x

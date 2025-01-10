@@ -1,7 +1,5 @@
 import { NeonClient, NeonDatabase } from "drizzle-orm/neon-serverless";
 
 declare global {
-    var db: NeonDatabase<Record<string, never>> & {
-        $client: NeonClient;
-    }
+    var db: NeonHttpDatabase<Record<string, never>> & { $client: NeonQueryFunction<any, any>; }
 }

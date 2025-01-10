@@ -136,7 +136,7 @@ export default function Footer() {
         <div className="pt-5 border-t mt-5 flex justify-between">
           <div>
             <Image
-              alt="CoreAnalytics"
+              alt="BrightAnalytics"
               src={"/android-chrome-512x512.png"}
               width={35}
               height={30}
@@ -146,7 +146,7 @@ export default function Footer() {
             />
           </div>
           <div>
-            <span className="text-neutral-500 text-sm">@ 2077 Core Analytics. All rights reserved.</span>
+            <span className="text-neutral-500 text-sm">@ 2077 Bright Analytics. All rights reserved.</span>
           </div>
         </div>
       </div>

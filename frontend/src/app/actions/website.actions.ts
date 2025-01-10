@@ -1,21 +1,24 @@
 "use server";
+import { connectDb } from "@/db";
 import {
   hostnamesTable,
   usersTable,
   userUnverifiedHostnames,
   userVerifiedHostnames,
+  uvHostnameTable,
 } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export async function isHostnameGloballyVerified(hostname: string) {
-  const result = await db
+  await connectDb();
+  const result = await global.db
     .select({
       hostname: hostnamesTable.host,
     })
     .from(userVerifiedHostnames)
     .innerJoin(
       hostnamesTable,
-      eq(userVerifiedHostnames.hostnameId, hostnamesTable.id) 
+      eq(userVerifiedHostnames.hostnameId, hostnamesTable.id)
     )
     .where(eq(hostnamesTable.host, hostname))
     .limit(1)
@@ -34,21 +37,43 @@ export async function addVerifiedHostnames(
     hostnameId,
   }));
 
-  await db.insert(userVerifiedHostnames).values(verifiedHostnames);
+  await global.db.insert(userVerifiedHostnames).values(verifiedHostnames);
   console.log("Verified hostnames added:", verifiedHostnames);
 }
 
-export async function addUnverifiedHostnames(
-  userId: number,
-  uvHostnameIds: number[]
+export async function addUnverifiedHostname(
+  username: string,
+  uvHostname: string
 ) {
-  const unverifiedHostnames = uvHostnameIds.map((uvHostnameId) => ({
-    userId,
-    uvHostnameId,
-  }));
+  await connectDb();
+  
+  const [user] = await global.db
+  .select({ username: usersTable.username, id: usersTable.id })
+  .from(usersTable)
+  .where(eq(usersTable.username, username))
 
-  await db.insert(userUnverifiedHostnames).values(unverifiedHostnames);
-  console.log("Unverified hostnames added:", unverifiedHostnames);
+  console.log(username, user)
+
+  const [newHostname] = await global.db
+    .insert(uvHostnameTable)
+    .values({ host: uvHostname })
+    .returning({ id: uvHostnameTable.id });
+
+  if (!newHostname || !newHostname.id || !user || !user.id) {
+    console.error(newHostname, user)
+    throw new Error(
+      `Failed to insert hostname "${uvHostname}" into uvHostnameTable`
+    );
+  }
+
+  const result = await global.db.insert(userUnverifiedHostnames).values({
+    userId: user.id,
+    uvHostnameId: newHostname.id
+  }).returning({
+    id: userUnverifiedHostnames.userId
+  })
+  console.log("Unverified hostnames added:", result);
+  return true;
 }
 
 export async function createUser(

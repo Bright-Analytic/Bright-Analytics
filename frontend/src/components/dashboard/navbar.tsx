@@ -16,7 +16,7 @@ export default function DashNavbar() {
         <div className="flex justify-center gap-x-5">
           <div className="flex">
             <Image
-              alt="CoreAnalytics"
+              alt="BrightAnalytics"
               src={"/android-chrome-512x512.png"}
               width={35}
               height={30}

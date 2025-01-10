@@ -1,3 +1,4 @@
+"use client"
 import BpCheckbox from "@/components/dashboard/bp-checkbox";
 import Chart from "@/components/dashboard/chart";
 import { FormControlLabel } from "@mui/material";
