@@ -112,7 +112,6 @@
     }
   },
   "references": [
-    { "path": "./apps/frontend" }, 
     { "path": "./apps/event-processor" },      
     { "path": "./apps/analytics-api" },     
     { "path": "./apps/pageview-api" },
