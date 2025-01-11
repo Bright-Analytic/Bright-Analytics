@@ -17,6 +17,7 @@
     "@mui/x-charts": "^7.23.2",
     "@neondatabase/serverless": "^0.10.4",
     "@radix-ui/react-slot": "^1.1.1",
+    "@shared/drizzle-client": "^1.0.0",
     "ag-charts-react": "^11.0.3",
     "axios": "^1.7.9",
     "cheerio": "^1.0.0",

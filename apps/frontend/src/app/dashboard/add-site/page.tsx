@@ -9,10 +9,6 @@ import { RiNextjsFill } from "react-icons/ri";
 import HtmlHelp from "@/components/dashboard/tech-help/html";
 import NextjsHelp from "@/components/dashboard/tech-help/nextjs";
 import { useRouter } from "next/navigation";
-import {
-  addUnverifiedHostname,
-  isHostnameGloballyVerified,
-} from "@/app/actions/website.actions";
 import { useUser } from "@clerk/nextjs";
 
 enum Selections {
@@ -31,15 +27,15 @@ export default function AddSite() {
     e.preventDefault();
     setLoading(true);
     try {
-      const result = await isHostnameGloballyVerified(hostname);
-      console.log("Result is here: ", result);
-      if (!result) {
-        if (user.user?.username != null)
-          await addUnverifiedHostname(user.user.username, hostname.trim());
-        router.push(`/dashboard/install/?hostname=${hostname.trim()}`);
-      } else {
-        setShowError(true);
-      }
+      // const result = await isHostnameGloballyVerified(hostname);
+      // console.log("Result is here: ", result);
+      // if (!result) {
+      //   if (user.user?.username != null)
+      //     await addUnverifiedHostname(user.user.username, hostname.trim());
+      //   router.push(`/dashboard/install/?hostname=${hostname.trim()}`);
+      // } else {
+      //   setShowError(true);
+      // }
     } catch (error) {
       console.error("Error during submitting new site:", error);
     } finally {

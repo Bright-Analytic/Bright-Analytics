@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 import { ConsumeMessage } from "amqplib";
 import { hash } from "./lib/utils";
 import { PulsarClient } from "@shared/pulsar-client";
+import { RabbitMq } from "@shared/rabbitmq-client";
+import { RedisClient } from "@shared/redis-client";
 
 dotenv.config({
   path: "../.env",
@@ -9,6 +11,8 @@ dotenv.config({
 });
 
 let pulsar: PulsarClient;
+let rmq: RabbitMq;
+let redis: RedisClient;
 
 async function onMessage(msg: ConsumeMessage | null) {
   console.log(
@@ -55,14 +59,14 @@ async function processPulsarEvents(hostname: string) {
   } catch (error: any) {
     console.error(`ERrror during processing pulsar events: `, error);
   } finally {
-    
+    await pulsar.closeConsumer();
   }
 }
 
 async function cacheEventsToRedis(arr: any[]) {
   console.log("Data come to event processor:", arr);
   try {
-    const pipeline = rClient.pipeline();
+    const pipeline = redis.redis.pipeline();
     for (const data of arr) {
       const timeBucket = Math.floor(data.added_unix / (60 * 60 * 24));
       const key = `meta:${data.hostname}:${timeBucket}`;
@@ -107,7 +111,10 @@ async function cacheEventsToRedis(arr: any[]) {
 
 (async () => {
   pulsar = new PulsarClient(process.env.PULSAR_HOSTNAME!, Number(process.env.PULSAR_PORT!))
-  await channel.consume(process.env.RMQ_ANALYTICS_QUEUE!, onMessage, {
+  rmq = new RabbitMq(process.env.RMQ_HOSTNAME!, process.env.RMQ_PORT!, process.env.RMQ_USERNAME!, process.env.RMQ_PASSWORD!)
+  redis = new RedisClient(Number(process.env.REDIS_PORT!), process.env.REDIS_HOST!)
+  if(!rmq.channel) throw new Error("Failed to connect to clients.")
+  await rmq.channel.consume(process.env.RMQ_ANALYTICS_QUEUE!, onMessage, {
     noAck: true,
   });
 })();

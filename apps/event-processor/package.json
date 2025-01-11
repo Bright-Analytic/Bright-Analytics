@@ -30,6 +30,7 @@
     "typescipt": "^1.0.0"
   },
   "dependencies": {
+    "@shared/pulsar-client": "^1.0.0",
     "@types/amqplib": "^0.10.6",
     "amqplib": "^0.10.5",
     "dotenv": "^16.4.7",

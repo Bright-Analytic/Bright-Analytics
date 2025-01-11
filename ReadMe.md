@@ -29,3 +29,8 @@ docker run -p 6379:6379 -it --rm redis/redis-stack-server
 ## Here's the full system design of this project.
 
 ![system design](https://github.com/adityasharma-tech/AnalyzeCore/blob/master/assets/diagram.jpg?raw=true)
+
+```Build a fullstack open source analytics platform & trying to make it scalable.
+https://github.com/adityasharma-tech/CoreAnalytics.git tech stack: drizzle-orm, kafkajs, pulsar-client, ioredis, rabbitmq, apis.
+thank you @piyushgarg_dev 'build your own' series.
+It is 11th day & analytic.adityasharma.live FE is ready```

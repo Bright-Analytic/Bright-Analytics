@@ -13,6 +13,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  reactStrictMode: true,
+  webpack: (config, { dev }) => {
+    if (dev) {
+      config.resolve.alias['react-dom$'] = 'react-dom';
+      config.resolve.alias['scheduler/tracing'] = 'scheduler/tracing';
+    }
+    return config;
+  }
 };
 
 export default nextConfig;
