@@ -2,7 +2,7 @@ FROM node:18.14.2-alpine
 
 WORKDIR /script-server
 
-COPY script-server/* ./
+COPY apps/script-server/* ./
 
 RUN npm install
 

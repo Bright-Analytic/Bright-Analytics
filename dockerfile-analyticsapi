@@ -2,7 +2,7 @@ FROM node:22.12.0-alpine
 
 WORKDIR /analytics-api
 
-COPY analytics-api/* ./
+COPY apps/analytics-api/ ./
 
 RUN npm install
 

@@ -5,7 +5,7 @@ ENV NEON_DB_URL=$NEON_DB_URL
 
 WORKDIR /usr/local/queue-worker
 
-COPY queue-worker/ ./
+COPY apps/queue-worker/ ./
 
 RUN npm install
 

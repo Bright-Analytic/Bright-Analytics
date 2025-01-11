@@ -1,0 +1,43 @@
+{
+  "name": "script-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/server.js",
+    "dev": "nodemon src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adityasharma-tech/analyzecore.git"
+  },
+  "keywords": [
+    "analtics",
+    "api"
+  ],
+  "author": "Aditya SHarma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adityasharma-tech/analyzecore/issues"
+  },
+  "homepage": "https://github.com/adityasharma-tech/analyzecore#readme",
+  "description": "",
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.8",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.14",
+    "@types/morgan": "^1.9.9",
+    "@types/semver": "^7.5.8",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescipt": "^1.0.0"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
