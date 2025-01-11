@@ -1,1 +1,0 @@
-ALTER TABLE "raw_analytics" ALTER COLUMN "added_unix" SET DATA TYPE bigint;

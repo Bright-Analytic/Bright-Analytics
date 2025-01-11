@@ -2,7 +2,8 @@ import { ApiResponse } from "../lib/ApiResponse";
 import { asyncHandler } from "../lib/asyncHandler";
 import uap from "ua-parser-js";
 import { Buffer } from "buffer";
-import { kafkaProducer } from "../lib/kafka";
+import { KafkaClient } from "@shared/kafka-client";
+import { ApiError } from "../lib/ApiError";
 
 const collect = asyncHandler(async (req, res, next) => {
   // save data to sql
@@ -65,12 +66,16 @@ const collect = asyncHandler(async (req, res, next) => {
       viewport_width: viewportWidth,
       screen_width: screenWidth,
       screen_height: screenHeight,
-    }),
+    })
   );
 
-  const kfProducer = await kafkaProducer();
-
-  await kfProducer.send({
+  const kafka = new KafkaClient("analyze-core", [
+    `${process.env.KAFKA_HOST || "kafka-service"}:${process.env.KAFKA_PORT || 9092}`,
+  ]);
+  await kafka.initProducer();
+  if (!kafka.producer)
+    throw new ApiError(400, "Failed to load kafka producers.");
+  await kafka.producer.send({
     topic: "raw-analytics",
     messages: [
       {

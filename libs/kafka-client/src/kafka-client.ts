@@ -6,18 +6,23 @@ import {
   ConsumerSubscribeTopics,
   logLevel,
 } from "kafkajs";
+import dotenv from 'dotenv'
+
+dotenv.config({
+  path: "../../.env"
+})
 
 /**
  * KafkaClient class for managing Kafka consumers and producers.
  */
 export class KafkaClient {
   private kafka: Kafka;
-  private consumer?: Consumer;
-  private producer?: Producer;
+  public consumer?: Consumer;
+  public producer?: Producer;
 
   constructor(
-    clientId: string,
-    brokers: string[],
+    clientId: string = "analyze-core",
+    brokers: string[] = [`${process.env.KAFKA_HOST || "kafka-service"}:${process.env.KAFKA_PORT || 9092}`,],
     private lLevel: logLevel = logLevel.ERROR,
   ) {
     this.kafka = new Kafka({

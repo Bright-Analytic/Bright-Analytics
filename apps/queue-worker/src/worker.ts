@@ -1,30 +1,27 @@
+import { KafkaClient } from "@shared/kafka-client";
+import { PulsarClient } from "@shared/pulsar-client";
+import { RabbitMq } from "@shared/rabbitmq-client";
+import { DrizzleDb } from "@shared/drizzle-client";
 import dotenv from "dotenv";
-
-import { rawAnalytics } from "./db/schema";
-import connectDB from "./db/connect";
-import { kafkaConsumer, kafkaProducer } from "./lib/kafka";
-import { Consumer, Producer } from "kafkajs";
-import { Channel } from "amqplib";
-import { connectRmq } from "./lib/rabbitmq";
-import Pulsar from "pulsar-client";
-import { pulsarProducer } from "./lib/pulsar";
-
-let kfConsumer: Consumer;
-let kfProducer: Producer;
-let rmqChannel: Channel;
-let pProducer: Pulsar.Producer;
+import { schemas } from "@shared/drizzle-client";
 
 dotenv.config({
   path: "../.env",
   debug: true,
 });
 
+let kafka: KafkaClient;
+let pulsar: PulsarClient;
+let rmq: RabbitMq;
+let drizzleDb: DrizzleDb;
+
 const consumeRabbitMq = async () => {
   console.log(
     `Running rabbitmq consumer for queue ${process.env.RMQ_PRE_ANALYTICS_QUEUE}`,
   );
   try {
-    await rmqChannel.consume(
+    if(!rmq.channel) throw new Error("Channel not loaded yet.");
+    await rmq.channel.consume(
       process.env.RMQ_PRE_ANALYTICS_QUEUE!,
       (message) => {
         if (message != null) {
@@ -45,8 +42,8 @@ const consumeRabbitMq = async () => {
 
 const consumerKafka = async () => {
   console.log(`Running kafka consumer for topic `);
-  const db = await connectDB();
-  await kfConsumer.run({
+  if(!kafka.consumer) throw new Error("Kafka consumer not initialized yet.")
+  await kafka.consumer.run({
     eachBatch: async ({
       batch,
       resolveOffset,
@@ -63,22 +60,19 @@ const consumerKafka = async () => {
       console.log(`Processing batch of ${batch.messages.length} messages`);
 
       const incomingMessages = [];
-      pProducer = await pulsarProducer();
+      await pulsar.loadProducer("persistent://public/default/event-streams")
+      if(!pulsar.producer) throw new Error("Pulsar producer not initialized.")
 
       for (const message of batch.messages) {
         if (!isRunning() || isStale()) break;
         incomingMessages.push(JSON.parse(message.value?.toString() || "{}"));
         if (message.value != null)
-          pProducer.send({
+          pulsar.producer.send({
             data: message.value,
           });
       }
       try {
-        await db.insert(rawAnalytics).values(incomingMessages).execute();
-        // await kfProducer.send({
-        //   topic: "event-streams",
-        //   messages: batch.messages.map((e)=>({ key: e.key, value: e.value })),
-        // });
+        await drizzleDb.db.insert(schemas.rawAnalytics).values(incomingMessages).execute();
 
         console.log(`Send all batch messages to event-streams`);
         for (const message of batch.messages) {
@@ -94,14 +88,19 @@ const consumerKafka = async () => {
 };
 
 (async () => {
-  rmqChannel = await connectRmq();
-  kfConsumer = await kafkaConsumer({
-    groupId: "local-grp",
-    maxWaitTimeInMs: 1024,
-  });
-  kfProducer = await kafkaProducer();
+  kafka = new KafkaClient();
+  pulsar = new PulsarClient();
+  rmq = new RabbitMq();
+  drizzleDb = new DrizzleDb();
 
-  await kfConsumer.subscribe({ topic: "raw-analytics", fromBeginning: true });
+  await kafka.initConsumer({
+    groupId: "local-grp",
+    maxWaitTimeInMs: 1012
+  }, {
+    topics: ["raw-analytics"],
+    fromBeginning: true
+  });
+  await kafka.initProducer();
 
   await Promise.all([consumerKafka(), consumeRabbitMq()]);
 

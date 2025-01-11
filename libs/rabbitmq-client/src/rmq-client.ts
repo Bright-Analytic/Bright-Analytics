@@ -10,10 +10,10 @@ export class RabbitMq {
   private password: string;
 
   constructor(
-    hostname: string,
-    port: string,
-    username: string,
-    password: string,
+    hostname: string = process.env.RMQ_HOSTNAME!,
+    port: string = process.env.RMQ_PORT!,
+    username: string = process.env.RMQ_USERNAME!,
+    password: string = process.env.RMQ_PASSWORD!,
   ) {
     this.hostname = hostname;
     this.port = port;

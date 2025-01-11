@@ -8,7 +8,7 @@ export class DrizzleDb {
     $client: NeonQueryFunction<any, any>;
   };
 
-  constructor(url: string) {
+  constructor(url: string = process.env.DATABASE_URL!) {
     this.url = url;
     this.db = drizzle(this.url);
   }

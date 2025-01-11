@@ -22,6 +22,8 @@
   "homepage": "https://github.com/adityasharma-tech/AnalyzeCore#readme",
   "description": "",
   "dependencies": {
+    "@shared/kafka-client": "^1.0.0",
+    "@shared/rabbitmq-client": "^1.0.0",
     "amqplib": "^0.10.5",
     "body-parser": "^1.20.3",
     "buffer": "^6.0.3",

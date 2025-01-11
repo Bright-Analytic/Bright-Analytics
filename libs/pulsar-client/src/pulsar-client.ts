@@ -36,7 +36,7 @@ export class PulsarClient {
   protected hostname: string;
   protected port: number;
 
-  constructor(hostname: string, port: number) {
+  constructor(hostname: string=process.env.PULSAR_HOST!, port: number = Number(process.env.PULSAR_PORT)) {
     this.hostname = hostname;
     this.port = port;
     this.client = null;
