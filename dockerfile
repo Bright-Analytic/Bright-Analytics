@@ -1,6 +1,7 @@
 FROM node:22.12.0-alpine
 
 RUN apk add --no-cache \
+    git \
     python3 \
     make \
     g++ \
@@ -28,32 +29,15 @@ WORKDIR /wdir
 # Copy all necessary files
 COPY . .
 
+RUN ls -l
+
 # Install dependencies
 RUN npm install
 
+RUN npx lerna init
+
 # Build all libraries
 RUN npm run build:libs
-
-RUN npm install
-
-# Install dependencies for each app
-WORKDIR /wdir/apps/analytics-api
-RUN npm install
-
-WORKDIR /wdir/apps/event-processor
-RUN npm install
-
-WORKDIR /wdir/apps/pageview-api
-RUN npm install
-
-WORKDIR /wdir/apps/queue-worker
-RUN npm install
-
-WORKDIR /wdir/apps/script-server
-RUN npm install
-
-# Build all apps
-WORKDIR /wdir
 
 # Build all apps
 RUN npm run build:apps
