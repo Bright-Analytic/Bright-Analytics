@@ -9,7 +9,7 @@ const retriveData = asyncHandler(async (req, res, next) => {
     throw new ApiError(400, "Please provide hostname in the request query.");
   }
 
-  const {redis} = new RedisClient(Number(process.env.REDIS_PORT!), process.env.REDIS_HOST!);
+  const {redis} = new RedisClient();
 
   const zsetKey = `timestamps:${query.hostname}`;
   const now = new Date();

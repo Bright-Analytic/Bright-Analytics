@@ -6,7 +6,7 @@ const getVerifiedHostname = asyncHandler((req, res, next) => {
   if (!query.hostname) {
     throw new ApiError(400, "Hostname is a required field!");
   }
-  const orm = new DrizzleDb(process.env.DATABASE_URL!);
+  const orm = new DrizzleDb();
 });
 
 const getUnVerifiedHostname = asyncHandler((req, res, next) => {
@@ -14,7 +14,7 @@ const getUnVerifiedHostname = asyncHandler((req, res, next) => {
   if (!query.hostname) {
     throw new ApiError(400, "Hostname is a required field!");
   }
-  const orm = new DrizzleDb(process.env.DATABASE_URL!);
+  const orm = new DrizzleDb();
 });
 
 const postVerifiedHostname = asyncHandler((req, res, next) => {
@@ -22,7 +22,7 @@ const postVerifiedHostname = asyncHandler((req, res, next) => {
   if (!query.hostname) {
     throw new ApiError(400, "Hostname is a required field!");
   }
-  const orm = new DrizzleDb(process.env.DATABASE_URL!);
+  const orm = new DrizzleDb();
 });
 
 const postUnVerifiedHostname = asyncHandler((req, res, next) => {
@@ -30,7 +30,7 @@ const postUnVerifiedHostname = asyncHandler((req, res, next) => {
   if (!query.hostname) {
     throw new ApiError(400, "Hostname is a required field!");
   }
-  const orm = new DrizzleDb(process.env.DATABASE_URL!);
+  const orm = new DrizzleDb();
 });
 
 export {

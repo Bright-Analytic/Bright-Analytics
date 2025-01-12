@@ -16,12 +16,7 @@ const dispatch = asyncHandler(async (req, res, next) => {
     }),
   );
 
-  const rmq = new RabbitMq(
-    process.env.RMQ_HOST!,
-    process.env.RMQ_PORT!,
-    process.env.RMQ_USERNAME!,
-    process.env.RMQ_PASSWORD!,
-  );
+  const rmq = new RabbitMq();
   await rmq.connectRmq();
   await rmq.loadChannel(process.env.RMQ_ANALYTICS_QUEUE!, {
     durable: true,

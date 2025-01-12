@@ -24,7 +24,7 @@ export class RedisClient {
    * @param port - The port number of the Redis server.
    * @param host - The host address of the Redis server.
    */
-  constructor(port: number, host: string) {
+  constructor(port: number = Number(process.env.REDIS_PORT!), host: string = process.env.REDIS_HOST!) {
     this.host = host;
     this.port = port;
     this.redis = new Redis({

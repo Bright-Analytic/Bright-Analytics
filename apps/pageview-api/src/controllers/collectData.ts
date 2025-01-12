@@ -69,9 +69,7 @@ const collect = asyncHandler(async (req, res, next) => {
     })
   );
 
-  const kafka = new KafkaClient("analyze-core", [
-    `${process.env.KAFKA_HOST || "kafka-service"}:${process.env.KAFKA_PORT || 9092}`,
-  ]);
+  const kafka = new KafkaClient();
   await kafka.initProducer();
   if (!kafka.producer)
     throw new ApiError(400, "Failed to load kafka producers.");

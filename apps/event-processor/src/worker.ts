@@ -110,9 +110,9 @@ async function cacheEventsToRedis(arr: any[]) {
 }
 
 (async () => {
-  pulsar = new PulsarClient(process.env.PULSAR_HOSTNAME!, Number(process.env.PULSAR_PORT!))
-  rmq = new RabbitMq(process.env.RMQ_HOSTNAME!, process.env.RMQ_PORT!, process.env.RMQ_USERNAME!, process.env.RMQ_PASSWORD!)
-  redis = new RedisClient(Number(process.env.REDIS_PORT!), process.env.REDIS_HOST!)
+  pulsar = new PulsarClient()
+  rmq = new RabbitMq()
+  redis = new RedisClient()
   if(!rmq.channel) throw new Error("Failed to connect to clients.")
   await rmq.channel.consume(process.env.RMQ_ANALYTICS_QUEUE!, onMessage, {
     noAck: true,
