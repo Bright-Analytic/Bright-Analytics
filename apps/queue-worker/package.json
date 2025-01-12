@@ -1,5 +1,5 @@
 {
-  "name": "queue-worker",
+  "name": "@apps/queue-worker",
   "version": "1.0.0",
   "main": "src/worker.js",
   "scripts": {

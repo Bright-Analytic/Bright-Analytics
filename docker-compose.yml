@@ -63,70 +63,21 @@ services:
       - "9092:9092"
 
   # main service 1
-  analytics-api-service:
-    container_name: analytics-api-service
+  apps-service:
+    container_name: apps-service
     build:
       context: ./
-      dockerfile: dockerfile-analyticsapi
-    env_file:
-      - ./.env
-    depends_on:
-      - redis-service
-      - rabbitmq-service
-    ports:
-      - "8003:8003"
-
-  # main service 2
-  event-processor-service:
-    container_name: event-processor-service
-    build:
-      context: ./
-      dockerfile: dockerfile-eventprocessor
     env_file:
       - ./.env
     depends_on:
       - redis-service
       - rabbitmq-service
       - kafka-service
-    # entrypoint: ["./wait-for-it.sh", "rabbitmq-service:5672", "--", "npm", "start"]
-
-  # main service 3
-  pageview-api-service:
-    container_name: pageview-api-service
-    build:
-      context: ./
-      dockerfile: dockerfile-pageviewapi
-    env_file:
-      - ./.env
-    depends_on:
-      - rabbitmq-service
-    ports:
-      - "8002:8002"
-
-  # main service 4
-  queue-worker-service:
-    container_name: queue-worker-service
-    build:
-      context: ./
-      dockerfile: dockerfile-queueworker
-      args:
-        - NEON_DB_URL=${NEON_DB_URL}
-    env_file:
-      - ./.env
-    depends_on:
-      - kafka-service
-      - rabbitmq-service
-
-  # main service 5
-  script-server:
-    container_name: script-server
-    build:
-      context: ./
-      dockerfile: dockerfile-script
-    env_file:
-      - ./.env
+      - pulsar-service
     ports:
       - "8001:8001"
+      - "8002:8002"
+      - "8003:8003"
 
 volumes:
   redis-data:

@@ -8,6 +8,9 @@
     "lint": "eslint 'apps/**/*.ts' 'libs/**/*.ts'",
     "format": "prettier --write 'apps/**/*.{ts,tsx,js,json,md}' 'libs/**/*.{ts,tsx,js,json,md}'",
     "build": "lerna run build",
+    "build:libs": "lerna run build --scope @shared/*",
+    "build:apps": "lerna run build --scope @apps/*",
+    "build:pkg": "lerna run build --scope",
     "test": "lerna run test",
     "clean": "rimraf **/dist"
   },

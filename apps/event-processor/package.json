@@ -1,5 +1,5 @@
 {
-  "name": "event-processor",
+  "name": "@apps/event-processor",
   "version": "1.0.0",
   "main": "src/worker.js",
   "scripts": {
