@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import { schemas } from "@shared/drizzle-client";
 
 dotenv.config({
-  path: "../.env",
+  path: "../../.env",
   debug: true,
 });
 

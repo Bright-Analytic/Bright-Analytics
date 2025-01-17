@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config({
-  path: "../.env",
+  path: "../../.env",
 });
 
 import { ModuleKind, ScriptTarget, transpileModule } from "typescript";

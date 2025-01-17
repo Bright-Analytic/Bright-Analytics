@@ -24,6 +24,8 @@ RUN wget https://archive.apache.org/dist/pulsar/pulsar-2.8.1/DEB/apache-pulsar-c
     && tar -xvf data.tar.xz -C / \
     && rm apache-pulsar-client.deb control.tar.gz data.tar.xz debian-binary
 
+RUN apk add --no-cache build-base python3
+
 WORKDIR /wdir
 
 # Copy all necessary files

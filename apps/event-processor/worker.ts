@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import { ConsumeMessage } from "amqplib";
-import { hash } from "./lib/utils";
+import { hash } from "./src/lib/utils";
 import { PulsarClient } from "@shared/pulsar-client";
 import { RabbitMq } from "@shared/rabbitmq-client";
 import { RedisClient } from "@shared/redis-client";

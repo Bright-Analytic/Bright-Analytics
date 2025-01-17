@@ -19,6 +19,17 @@ docker run -d --name kafka -p 9092:9092 -e KAFKA_ZOOKEEPER_CONNECT=localhost:218
 docker run -p 6379:6379 -it --rm redis/redis-stack-server
 ```
 
+### pulsar services
+```shell
+docker run -it ^
+-p 6650:6650 ^
+-p 8080:8080 ^
+--mount source=pulsardata,target=/pulsar/data ^
+--mount source=pulsarconf,target=/pulsar/conf ^
+apachepulsar/pulsar:3.2.4 ^
+bin/pulsar standalone
+```
+
 | Micoservice Name | About                                                                                                          |
 | ---------------- | -------------------------------------------------------------------------------------------------------------- |
 | AnalyticsApi     | Frontend api from where you can get your realtime data.                                                        |

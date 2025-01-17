@@ -1,11 +1,11 @@
 {
   "name": "@apps/event-processor",
   "version": "1.0.0",
-  "main": "src/worker.js",
+  "main": "worker.js",
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/worker.js",
-    "dev": "nodemon src/worker.ts"
+    "dev": "nodemon worker.ts"
   },
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
     "analtics",
     "api"
   ],
-  "author": "Aditya SHarma",
+  "author": "Aditya Sharma",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/adityasharma-tech/analyzecore/issues"

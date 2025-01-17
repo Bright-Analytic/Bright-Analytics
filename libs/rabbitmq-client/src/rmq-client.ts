@@ -24,7 +24,7 @@ export class RabbitMq {
   public async connectRmq() {
     try {
       this.connection = await amqplib.connect(
-        `amqp://${this.hostname}:${this.port}`,
+        `amqp://${this.hostname}`,
         {
           credentials: credentials.plain(this.username, this.password),
         },

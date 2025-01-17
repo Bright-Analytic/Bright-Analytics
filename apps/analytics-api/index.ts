@@ -1,11 +1,11 @@
 import dotenv from "dotenv";
-import { app } from "./app";
+import { app } from "./src/app";
 
 dotenv.config({
-  path: "../.env",
+  path: "../../.env",
 });
 
-const port = process.env.PAGEVIEW_PORT || 3000;
+const port = process.env.ANALYTICS_API_PORT || 3000;
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
