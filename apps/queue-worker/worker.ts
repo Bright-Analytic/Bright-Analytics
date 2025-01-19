@@ -15,7 +15,7 @@ let drizzleDb: DrizzleDb;
 let redisClient: RedisClient;
 
 const consumerKafka = async () => {
-  console.log(`Running kafka consumer for topic `);
+  console.log(`Running kafka consumer for topic raw-analytics`);
   if(!kafkaClient.consumer) throw new Error("Kafka consumer not initialized yet.")
   await kafkaClient.consumer.run({
     eachBatch: async ({
@@ -60,6 +60,7 @@ const consumerKafka = async () => {
       } catch (error: any) {
         console.error(`Error during processing batch.: ${error.message}`);
       }
+      await heartbeat();
     },
   });
 };
@@ -122,12 +123,16 @@ async function cacheEventsToRedis(arr: any[]) {
     groupId: "local-grp",
     maxWaitTimeInMs: 1012,
     allowAutoTopicCreation: true,
-    
   }, {
     topics: ["raw-analytics"],
     fromBeginning: true
   });
+  
   await kafkaClient.initProducer();
+
+  kafkaClient.consumer?.on('consumer.rebalancing', (e)=>{
+    console.log(`Custom message the group is rebalancing: `, e)
+  })
 
   await consumerKafka();
 })();
