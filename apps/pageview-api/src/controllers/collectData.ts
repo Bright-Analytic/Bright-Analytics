@@ -70,6 +70,7 @@ const collect = asyncHandler(async (req, res, next) => {
   );
 
   const kafka = new KafkaClient();
+  await kafka.loadTopic('raw-analytics')
   await kafka.initProducer();
   if (!kafka.producer)
     throw new ApiError(400, "Failed to load kafka producers.");

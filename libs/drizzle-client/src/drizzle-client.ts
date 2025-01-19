@@ -1,15 +1,9 @@
-import { drizzle } from "drizzle-orm/neon-http";
-import { NeonQueryFunction } from "@neondatabase/serverless";
-import { NeonHttpDatabase } from "drizzle-orm/neon-http";
+import { drizzle, NodePgClient, NodePgDatabase } from 'drizzle-orm/node-postgres';
 
 export class DrizzleDb {
-  private url: string;
-  public db: NeonHttpDatabase<Record<string, never>> & {
-    $client: NeonQueryFunction<any, any>;
-  };
+  public db: NodePgDatabase<Record<string, never>> & { $client: NodePgClient; }
 
   constructor(url: string = process.env.DATABASE_URL!) {
-    this.url = url;
-    this.db = drizzle(this.url);
+    this.db = drizzle(url);
   }
 }

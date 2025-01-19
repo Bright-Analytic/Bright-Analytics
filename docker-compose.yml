@@ -1,63 +1,44 @@
 version: '3.8'
 services:
-  # service 1
-  redis-service:
-    container_name: redis-service
-    image: 'redis/redis-stack-server'
-    volumes:
-      - redis-data:/data
-    ports:
-      - "6379:6379"
+  # # service 1
+  # redis-service:
+  #   container_name: redis-service
+  #   image: 'redis/redis-stack-server'
+  #   volumes:
+  #     - redis-data:/data
+  #   ports:
+  #     - "6379:6379"
 
-  # service n
-  pulsar-service:
-    container_name: pulsar-service
-    image: 'apachepulsar/pulsar:3.2.4'
-    ports:
-      - "6650:6650"
-      - "8080:8080"
-    volumes:
-      - pulsardata:/pulsar/data
-      - pulsarconf:/pulsar/conf
-    command: bin/pulsar standalone
-  
-  # service 2
-  rabbitmq-service:
-    container_name: rabbitmq-service
-    image: 'rabbitmq:4.0-management'
-    ports:
-      - "15672:15672"
+  # # service 3
+  # zookeeper-service:
+  #   container_name: zookeeper-service
+  #   image: 'zookeeper:latest'
 
-  # service 3
-  zookeeper-service:
-    container_name: zookeeper-service
-    image: 'zookeeper:latest'
-
-  # service 4
-  kafka-service:
-    container_name: kafka-service
-    image: 'apache/kafka:latest'
-    environment:
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper-service:2181
-      # - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
-      # - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
-      # - KAFKA_NUM_PARTITIONS=3
-      - KAFKA_NODE_ID=1
-      - KAFKA_PROCESS_ROLES=broker,controller
-      - KAFKA_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-service:9092
-      - KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER
-      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-      - KAFKA_CONTROLLER_QUORUM_VOTERS=1@kafka-service:9093
-      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
-      - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
-      - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
-      - KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS=0
-      - KAFKA_NUM_PARTITIONS=3
-    depends_on:
-      - zookeeper-service
-    ports:
-      - "9092:9092"
+  # # service 4
+  # kafka-service:
+  #   container_name: kafka-service
+  #   image: 'apache/kafka:latest'
+  #   environment:
+  #     - KAFKA_ZOOKEEPER_CONNECT=zookeeper-service:2181
+  #     # - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+  #     # - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
+  #     # - KAFKA_NUM_PARTITIONS=3
+  #     - KAFKA_NODE_ID=1
+  #     - KAFKA_PROCESS_ROLES=broker,controller
+  #     - KAFKA_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+  #     - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-service:9092
+  #     - KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER
+  #     - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+  #     - KAFKA_CONTROLLER_QUORUM_VOTERS=1@kafka-service:9093
+  #     - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+  #     - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
+  #     - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
+  #     - KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS=0
+  #     - KAFKA_NUM_PARTITIONS=3
+  #   depends_on:
+  #     - zookeeper-service
+  #   ports:
+  #     - "9092:9092"
 
   # main service 1
   apps-service:
@@ -66,17 +47,12 @@ services:
       context: ./
     env_file:
       - ./.env
-    depends_on:
-      - redis-service
-      - rabbitmq-service
-      - kafka-service
-      - pulsar-service
     ports:
       - "8001:8001"
       - "8002:8002"
       - "8003:8003"
 
-volumes:
-  redis-data:
-  pulsardata:
-  pulsarconf:
+# volumes:
+  # redis-data:
+  # pulsardata:
+  # pulsarconf:

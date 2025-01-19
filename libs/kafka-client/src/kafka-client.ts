@@ -7,9 +7,8 @@ import {
   logLevel,
 } from "kafkajs";
 import dotenv from 'dotenv'
-
 dotenv.config({
-  path: "../../.env"
+  path: "../../../.env"
 })
 
 /**
@@ -22,13 +21,21 @@ export class KafkaClient {
 
   constructor(
     clientId: string = "analyze-core",
-    brokers: string[] = [`${process.env.KAFKA_HOST || "kafka-service"}:${process.env.KAFKA_PORT || 9092}`,],
+    brokers: string[] = process.env.KAFKA_BROKER_URI ? [process.env.KAFKA_BROKER_URI] : [`${process.env.KAFKA_HOST}:${process.env.KAFKA_PORT}`,],
     private lLevel: logLevel = logLevel.ERROR,
   ) {
     this.kafka = new Kafka({
       clientId,
       brokers,
       logLevel: this.lLevel,
+      ssl: {
+        rejectUnauthorized: false,
+        cert: process.env.KAFKA_ACCESS_CERT!,
+        ca: process.env.KAFKA_CA_CERT!,
+        key: process.env.KAFKA_ACCESS_KEY!,
+        host: (process.env.KAFKA_BROKER_URI!).split(':')[0],
+        port: +(process.env.KAFKA_BROKER_URI!).split(':')[1]
+      }
     });
   }
 
@@ -58,5 +65,17 @@ export class KafkaClient {
   async disconnect(): Promise<void> {
     if (this.consumer) await this.consumer.disconnect();
     if (this.producer) await this.producer.disconnect();
+  }
+
+  async loadTopic(topicName: string) {
+    const topics = await this.kafka.admin().listTopics();
+    if(topicName !in topics){
+      await this.kafka.admin().createTopics({
+        topics: [{
+          topic: "raw-analytics",
+          numPartitions: 2,
+        }],
+      })
+    }
   }
 }

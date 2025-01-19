@@ -111,15 +111,13 @@
       "@shared/*": ["./libs/*"]               // Alias for all shared libraries
     }
   },
-  "references": [
-    { "path": "./apps/event-processor" },      
-    { "path": "./apps/analytics-api" },     
+  "references": [ 
+    { "path": "./apps/analytics-api" },
     { "path": "./apps/pageview-api" },
     { "path": "./apps/queue-worker" },
     { "path": "./apps/script-server" },
     
     { "path": "./libs/kafka-client" },
-    { "path": "./libs/pulsar-client" },
     { "path": "./libs/redis-client" },
     { "path": "./libs/drizzle-client" },
     { "path": "./libs/rabbitmq-client" },

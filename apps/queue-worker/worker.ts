@@ -1,49 +1,23 @@
-import { KafkaClient } from "@shared/kafka-client";
-import { PulsarClient } from "@shared/pulsar-client";
-import { RabbitMq } from "@shared/rabbitmq-client";
-import { DrizzleDb } from "@shared/drizzle-client";
 import dotenv from "dotenv";
+import { KafkaClient } from "@shared/kafka-client";
+import { DrizzleDb } from "@shared/drizzle-client";
+import { RedisClient } from "@shared/redis-client"
 import { schemas } from "@shared/drizzle-client";
+import { hash } from "./lib/utils";
 
 dotenv.config({
   path: "../../.env",
   debug: true,
 });
 
-let kafka: KafkaClient;
-let pulsar: PulsarClient;
-let rmq: RabbitMq;
+let kafkaClient: KafkaClient;
 let drizzleDb: DrizzleDb;
-
-const consumeRabbitMq = async () => {
-  console.log(
-    `Running rabbitmq consumer for queue ${process.env.RMQ_PRE_ANALYTICS_QUEUE}`,
-  );
-  try {
-    if(!rmq.channel) throw new Error("Channel not loaded yet.");
-    await rmq.channel.consume(
-      process.env.RMQ_PRE_ANALYTICS_QUEUE!,
-      (message) => {
-        if (message != null) {
-          const msg = message.content.toString();
-          console.log(
-            `Incomming message from ${process.env.RMQ_PRE_ANALYTICS_QUEUE} queue: ${msg}`,
-          );
-        }
-      },
-      {
-        noAck: true,
-      },
-    );
-  } catch (error) {
-    console.error(`Error during consuming rabbitmq :`, error);
-  }
-};
+let redisClient: RedisClient;
 
 const consumerKafka = async () => {
   console.log(`Running kafka consumer for topic `);
-  if(!kafka.consumer) throw new Error("Kafka consumer not initialized yet.")
-  await kafka.consumer.run({
+  if(!kafkaClient.consumer) throw new Error("Kafka consumer not initialized yet.")
+  await kafkaClient.consumer.run({
     eachBatch: async ({
       batch,
       resolveOffset,
@@ -60,19 +34,14 @@ const consumerKafka = async () => {
       console.log(`Processing batch of ${batch.messages.length} messages`);
 
       const incomingMessages = [];
-      await pulsar.loadProducer("persistent://public/default/event-streams")
-      if(!pulsar.producer) throw new Error("Pulsar producer not initialized.")
 
       for (const message of batch.messages) {
         if (!isRunning() || isStale()) break;
         incomingMessages.push(JSON.parse(message.value?.toString() || "{}"));
-        if (message.value != null)
-          pulsar.producer.send({
-            data: message.value,
-          });
       }
       try {
         await drizzleDb.db.insert(schemas.rawAnalytics).values(incomingMessages).execute();
+        await cacheEventsToRedis(incomingMessages);
 
         console.log(`Send all batch messages to event-streams`);
         for (const message of batch.messages) {
@@ -87,22 +56,68 @@ const consumerKafka = async () => {
   });
 };
 
-(async () => {
-  kafka = new KafkaClient();
-  pulsar = new PulsarClient();
-  rmq = new RabbitMq();
-  drizzleDb = new DrizzleDb();
+async function cacheEventsToRedis(arr: any[]) {
+  console.log("Data come to event processor:", arr);
+  try {
+    const pipeline = redisClient.redis.pipeline();
+    for (const data of arr) {
+      const timeBucket = Math.floor(data.added_unix / (60 * 60 * 24));
+      const key = `meta:${data.hostname}:${timeBucket}`;
+      const zsetKey = `timestamps:${data.hostname}`;
+      pipeline.hincrby(key, `country_code:${data.country_code}`, 1);
+      pipeline.hincrby(key, `lang_region:${data.lang_region}`, 1);
+      pipeline.hincrby(key, `path:${hash(data.path)}`, 1);
+      pipeline.hincrby(key, `ip_address:${hash(data.ip_address)}`, 1);
+      pipeline.hincrby(key, `referrer:${hash(data.referrer)}`, 1);
+      pipeline.hincrby(key, `utm_source:${hash(data.utm_source)}`, 1);
+      pipeline.hincrby(key, `utm_medium:${hash(data.utm_medium)}`, 1);
+      pipeline.hincrby(key, `utm_campaign:${hash(data.utm_campaign)}`, 1);
+      pipeline.hincrby(key, `utm_content:${hash(data.utm_content)}`, 1);
+      pipeline.hincrby(key, `utm_term:${hash(data.utm_term)}`, 1);
+      pipeline.hincrby(
+        key,
+        `document_referrer:${hash(data.document_referrer)}`,
+        1,
+      );
+      pipeline.hincrby(
+        key,
+        `browser:${hash(`${data.browser_name}-${data.browser_version}`)}`,
+        1,
+      );
+      pipeline.hincrby(
+        key,
+        `os:${hash(`${data.os_name}-${data.os_version}`)}`,
+        1,
+      );
+      pipeline.zadd(zsetKey, data.added_unix, key);
+      pipeline.expire(key, 3600 * 24 * 1); // Keep data for 7 days
+      pipeline.expire(zsetKey, 3600 * 24 * 1);
 
-  await kafka.initConsumer({
+      pipeline.set(`${data.hostname}:${data.added_unix}`, 1);
+    }
+    await pipeline.exec();
+    console.log("Sucessfully cached message to redis.");
+  } catch (error) {
+    console.error(`[Redis]: Failed to cached message ${JSON.stringify(arr)}.`);
+  }
+}
+
+(async () => {
+  kafkaClient = new KafkaClient();
+  
+  drizzleDb = new DrizzleDb();
+  redisClient = new RedisClient();
+  await redisClient.connect();
+
+  await kafkaClient.loadTopic('raw-analytics')
+  await kafkaClient.initConsumer({
     groupId: "local-grp",
     maxWaitTimeInMs: 1012
   }, {
     topics: ["raw-analytics"],
     fromBeginning: true
   });
-  await kafka.initProducer();
+  await kafkaClient.initProducer();
 
-  await Promise.all([consumerKafka(), consumeRabbitMq()]);
-
-  console.log("Exiting...");
+  await consumerKafka();
 })();

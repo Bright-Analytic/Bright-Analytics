@@ -8,6 +8,7 @@
     "lint": "eslint 'apps/**/*.ts' 'libs/**/*.ts'",
     "format": "prettier --write 'apps/**/*.{ts,tsx,js,json,md}' 'libs/**/*.{ts,tsx,js,json,md}'",
     "build": "lerna run build",
+    "build:docker": "docker-compose up --build",
     "build:libs": "lerna run build --scope @shared/*",
     "build:apps": "lerna run build --scope @apps/*",
     "build:pkg": "lerna run build --scope",
@@ -31,14 +32,11 @@
   ],
   "dependencies": {
     "@shared/kafka-client": "^1.0.0",
-    "@shared/pulsar-client": "^1.0.0",
-    "@shared/rabbitmq-client": "^1.0.0",
     "@shared/redis-client": "^1.0.0",
     "amqplib": "^0.10.5",
     "drizzle-orm": "^0.38.3",
     "ioredis": "^5.4.2",
     "kafkajs": "^2.2.4",
-    "pulsar-client": "^1.12.0",
     "rimraf": "^6.0.1"
   }
 }
