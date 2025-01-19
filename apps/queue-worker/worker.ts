@@ -40,8 +40,16 @@ const consumerKafka = async () => {
         incomingMessages.push(JSON.parse(message.value?.toString() || "{}"));
       }
       try {
-        await drizzleDb.db.insert(schemas.rawAnalytics).values(incomingMessages).execute();
-        await cacheEventsToRedis(incomingMessages);
+        try {
+          await drizzleDb.db.insert(schemas.rawAnalytics).values(incomingMessages).execute();
+        } catch (error: any) {
+          console.error(`Error during inserting data to db.: ${error.message}\n`)
+        }
+        try {
+          await cacheEventsToRedis(incomingMessages);
+        } catch (error: any) {
+          console.error(`Error caching data to redis.: ${error.message}`);
+        }
 
         console.log(`Send all batch messages to event-streams`);
         for (const message of batch.messages) {
@@ -103,7 +111,7 @@ async function cacheEventsToRedis(arr: any[]) {
 }
 
 (async () => {
-  kafkaClient = new KafkaClient();
+  kafkaClient = new KafkaClient('queue-worker');
   
   drizzleDb = new DrizzleDb();
   redisClient = new RedisClient();
@@ -112,7 +120,9 @@ async function cacheEventsToRedis(arr: any[]) {
   await kafkaClient.loadTopic('raw-analytics')
   await kafkaClient.initConsumer({
     groupId: "local-grp",
-    maxWaitTimeInMs: 1012
+    maxWaitTimeInMs: 1012,
+    allowAutoTopicCreation: true,
+    
   }, {
     topics: ["raw-analytics"],
     fromBeginning: true

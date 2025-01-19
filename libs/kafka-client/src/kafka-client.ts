@@ -1,3 +1,4 @@
+import fs from "fs";
 import {
   Kafka,
   Consumer,
@@ -6,10 +7,10 @@ import {
   ConsumerSubscribeTopics,
   logLevel,
 } from "kafkajs";
-import dotenv from 'dotenv'
+import dotenv from "dotenv";
 dotenv.config({
-  path: "../../../.env"
-})
+  path: "../../../.env",
+});
 
 /**
  * KafkaClient class for managing Kafka consumers and producers.
@@ -21,21 +22,20 @@ export class KafkaClient {
 
   constructor(
     clientId: string = "analyze-core",
-    brokers: string[] = process.env.KAFKA_BROKER_URI ? [process.env.KAFKA_BROKER_URI] : [`${process.env.KAFKA_HOST}:${process.env.KAFKA_PORT}`,],
-    private lLevel: logLevel = logLevel.ERROR,
+    private lLevel: logLevel = logLevel.ERROR
   ) {
     this.kafka = new Kafka({
       clientId,
-      brokers,
+      brokers: [process.env.KAFKA_BROKER_URI!],
       logLevel: this.lLevel,
       ssl: {
-        rejectUnauthorized: false,
-        cert: process.env.KAFKA_ACCESS_CERT!,
         ca: process.env.KAFKA_CA_CERT!,
-        key: process.env.KAFKA_ACCESS_KEY!,
-        host: (process.env.KAFKA_BROKER_URI!).split(':')[0],
-        port: +(process.env.KAFKA_BROKER_URI!).split(':')[1]
-      }
+      },
+      sasl: {
+        mechanism: "scram-sha-256",
+        username: process.env.KAFKA_SASL_USERNAME!,
+        password: process.env.KAFKA_SASL_PASSWORD!,
+      },
     });
   }
 
@@ -44,7 +44,7 @@ export class KafkaClient {
    */
   async initConsumer(
     config: ConsumerConfig,
-    topics: ConsumerSubscribeTopics,
+    topics: ConsumerSubscribeTopics
   ): Promise<void> {
     this.consumer = this.kafka.consumer(config);
     await this.consumer.connect();
@@ -55,7 +55,9 @@ export class KafkaClient {
    * Initializes and connects a Kafka producer.
    */
   async initProducer(): Promise<void> {
-    this.producer = this.kafka.producer();
+    this.producer = this.kafka.producer({
+      allowAutoTopicCreation: true,
+    });
     await this.producer.connect();
   }
 
@@ -69,13 +71,15 @@ export class KafkaClient {
 
   async loadTopic(topicName: string) {
     const topics = await this.kafka.admin().listTopics();
-    if(topicName !in topics){
+    if (topicName! in topics) {
       await this.kafka.admin().createTopics({
-        topics: [{
-          topic: "raw-analytics",
-          numPartitions: 2,
-        }],
-      })
+        topics: [
+          {
+            topic: "raw-analytics",
+            numPartitions: 1,
+          },
+        ],
+      });
     }
   }
 }

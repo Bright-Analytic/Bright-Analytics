@@ -68,21 +68,24 @@ const collect = asyncHandler(async (req, res, next) => {
       screen_height: screenHeight,
     })
   );
-
-  const kafka = new KafkaClient();
-  await kafka.loadTopic('raw-analytics')
-  await kafka.initProducer();
-  if (!kafka.producer)
-    throw new ApiError(400, "Failed to load kafka producers.");
-  await kafka.producer.send({
-    topic: "raw-analytics",
-    messages: [
-      {
-        key: hostname,
-        value: dataToQueue,
-      },
-    ],
-  });
+  try {
+    const kafka = new KafkaClient("collect-data");
+    await kafka.loadTopic("raw-analytics");
+    await kafka.initProducer();
+    if (!kafka.producer)
+      throw new ApiError(400, "Failed to load kafka producers.");
+    await kafka.producer.send({
+      topic: "raw-analytics",
+      messages: [
+        {
+          key: hostname,
+          value: dataToQueue,
+        },
+      ],
+    });
+  } catch (error) {
+    throw new ApiError(400, "Failed to produce message", [error]);
+  }
 
   return res.status(200).json(new ApiResponse(200, null));
 });
