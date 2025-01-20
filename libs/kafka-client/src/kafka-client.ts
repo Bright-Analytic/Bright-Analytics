@@ -19,6 +19,8 @@ export class KafkaClient {
   private kafka: Kafka;
   public consumer?: Consumer;
   public producer?: Producer;
+  public producerConnected = false;
+  public consumerConnected = false;
 
   constructor(
     clientId: string = "analyze-core",
@@ -47,6 +49,17 @@ export class KafkaClient {
     topics: ConsumerSubscribeTopics
   ): Promise<void> {
     this.consumer = this.kafka.consumer(config);
+
+    this.consumer.on(this.consumer.events.CONNECT, ()=>{
+      console.log("[lib-kafkaclient]: Consumer connected;")
+      this.consumerConnected = true;
+    })
+
+    this.consumer.on(this.consumer.events.DISCONNECT, ()=>{
+      console.log("[lib-kafkaclient]: Consumer disconnected;")
+      this.consumerConnected = false;
+    })
+
     await this.consumer.connect();
     await this.consumer.subscribe(topics);
   }
@@ -58,6 +71,16 @@ export class KafkaClient {
     this.producer = this.kafka.producer({
       allowAutoTopicCreation: true,
     });
+    
+    this.producer.on(this.producer.events.CONNECT, ()=>{
+      console.log("[libs-kafkaclient]: Producer connected;")
+      this.producerConnected = true;
+    })
+
+    this.producer.on(this.producer.events.DISCONNECT, ()=>{
+      console.log("[libs-kafkaclient]: Producer disconnected;")
+    })
+
     await this.producer.connect();
   }
 

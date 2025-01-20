@@ -1,5 +1,6 @@
 export class ApiError extends Error {
   statusCode: number;
+  message: string;
   success: boolean;
   errors: any[];
   data: any;

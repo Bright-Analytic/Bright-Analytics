@@ -69,12 +69,16 @@ const collect = asyncHandler(async (req, res, next) => {
     })
   );
   try {
-    const kafka = new KafkaClient("collect-data");
-    await kafka.loadTopic("raw-analytics");
-    await kafka.initProducer();
-    if (!kafka.producer)
+    if(!global.kafka){
+      global.kafka = new KafkaClient("collect-data");
+    }
+    if(!global.kafka.producerConnected){
+      await global.kafka.loadTopic("raw-analytics");
+      await global.kafka.initProducer();
+    }
+    if (!global.kafka.producer)
       throw new ApiError(400, "Failed to load kafka producers.");
-    await kafka.producer.send({
+    await global.kafka.producer.send({
       topic: "raw-analytics",
       messages: [
         {
