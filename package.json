@@ -4,6 +4,7 @@
   "description": "Bright Analytics for a smarter tomorrow.",
   "scripts": {
     "start:services": "concurrently --names \"analytics-api,queue-worker\" --prefix-colors \"red,green\" \"npm run start --prefix apps/analytics-api\"  \"npm run start --prefix apps/queue-worker\"",
+    "start:worker": "concurrently --names \"queue-worker\" --prefix-colors \"green\" \"npm run start --prefix apps/queue-worker\"",
     "lint": "eslint 'apps/**/*.ts' 'libs/**/*.ts'",
     "format": "prettier --write 'apps/**/*.{ts,tsx,js,json,md}' 'libs/**/*.{ts,tsx,js,json,md}'",
     "build": "lerna run build",
