@@ -25,10 +25,16 @@ const collect = asyncHandler(async (req, res, _) => {
     screen_width,
     screen_height,
     unique,
-    id,
+    uid,
     type,
     time,
     referrer,
+    utm_source,
+    utm_medium,
+    utm_campaign,
+    utm_content,
+    utm_term,
+    document_referrer
   } = req.query;
 
   // extracted data
@@ -49,8 +55,8 @@ const collect = asyncHandler(async (req, res, _) => {
     ua: ua?.toString(),
     s: https?.toString(),
     tz: timezone?.toString(),
-    pi: page_id?.toString(),
-    si: session_id?.toString(),
+    pid: page_id?.toString(),
+    sid: session_id?.toString(),
     p: path?.toString(),
     vh: viewport_height?.toString(),
     vw: viewport_width?.toString(),
@@ -58,7 +64,7 @@ const collect = asyncHandler(async (req, res, _) => {
     sw: screen_width?.toString(),
     sh: screen_height?.toString(),
     u: unique?.toString(),
-    id: id?.toString(),
+    uid: uid?.toString(),
     ty: type?.toString(),
     tm: time?.toString(),
     r: referrer?.toString(),
@@ -69,6 +75,12 @@ const collect = asyncHandler(async (req, res, _) => {
     on: os_name,
     ov: os_version,
     dt: device_type,
+    ut_s: utm_source?.toString(),
+    ut_m: utm_medium?.toString(),
+    ut_ca: utm_campaign?.toString(),
+    ut_co: utm_content?.toString(),
+    ut_t: utm_term?.toString(),
+    doc_ref: document_referrer?.toString()
   };
 
   if (!hostname) throw new ApiError(400, "could not get hostname.");

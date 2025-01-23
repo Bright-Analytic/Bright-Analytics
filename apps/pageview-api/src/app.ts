@@ -19,7 +19,7 @@ app.use("/public", express.static("src/public"));
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
-  res.json(new ApiResponse(200, null, "System is healthy 😎."));
+  res.json(new ApiResponse(200, null, "[pageview-api]:: System is healthy 😎."));
 });
 
 // routes import

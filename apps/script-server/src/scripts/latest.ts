@@ -1,37 +1,77 @@
+const SESSION_ID_KEY = "bs-id";
+
 const handleAnalytics = async () => {
-  // Client-side: Extract UTM parameters and referrer
   const urlParams = new URLSearchParams(window.location.search);
 
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
+  function checkIfUnique() {
+    let bsid = sessionStorage.getItem(SESSION_ID_KEY);
+    if (!bsid) {
+      sessionStorage.setItem(SESSION_ID_KEY, crypto.randomUUID());
+      return "0";
+    } else {
+      return "1";
+    }
+  }
 
-  const raw = JSON.stringify({
-    url: {
-      hostname: window.location.hostname,
-      hostnameOriginal: window.location.host,
-      path: window.location.pathname,
-    },
-    dimension: {
-      viewportHeight: window.innerHeight,
-      viewportWidth: window.innerWidth,
-      screenHeight: screen.height,
-      screenWidth: screen.width,
-    },
-    source: {
-      utmSource: urlParams.get("utm_source"),
-      utmMedium: urlParams.get("utm_medium"),
-      utmCampaign: urlParams.get("utm_campaign"),
-      utmContent: urlParams.get("utm_content"),
-      utmTerm: urlParams.get("utm_term"),
-      documentReferrer: window.document.referrer,
-    },
+  function getSessionId() {
+    let bsid = sessionStorage.getItem(SESSION_ID_KEY);
+    const id = crypto.randomUUID();
+    if (!bsid) sessionStorage.setItem(SESSION_ID_KEY, id);
+    return id;
+  }
+
+  async function hashPageId(input: string) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(input);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    return Array.from(new Uint8Array(hashBuffer))
+      .map((byte) => byte.toString(16).padStart(2, "0"))
+      .join("");
+  }
+
+  async function generatePageId() {
+    const fullPath = `${window.location.pathname}${window.location.search}`;
+    return await hashPageId(fullPath);
+  }
+
+  var params = new URLSearchParams({
+    hostname: window.location.hostname,
+    ua: navigator.userAgent,
+    https: window.location.protocol === "https:" ? "1" : "0",
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone.toString(),
+    path: window.location.pathname,
+    viewport_width: window.innerWidth.toString(),
+    viewport_height: window.innerHeight.toString(),
+    language: navigator.language,
+    screen_width: screen.width.toString(),
+    screen_height: screen.height.toString(),
+    unique: checkIfUnique(),
+    uid: crypto.randomUUID(),
+    type: "pageview",
+    time: Date.now().toString(),
+    referrer: document.referrer.toString(),
   });
 
-  fetch("https://analytics.adityasharma.live/api/v1/", {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow",
+  function appendParam(key: string, value: string | null) {
+    if (value) params.append(key, value);
+  }
+
+  appendParam("page_id", await generatePageId());
+  appendParam("session_id", getSessionId());
+  appendParam("utm_source", urlParams.get("utm_source"));
+  appendParam("utm_medium", urlParams.get("utm_medium"));
+  appendParam("utm_campaign", urlParams.get("utm_campaign"));
+  appendParam("utm_content", urlParams.get("utm_content"));
+  appendParam("utm_term", urlParams.get("utm_term"));
+  appendParam("document_referrer", window.document.referrer);
+
+  const url = `https://analytics.adityasharma.live/api/v1/simple.gif?${params.toString()}`;
+
+  // const myHeaders = new Headers();
+  // myHeaders.append("Content-Type", "application/json");
+
+  fetch(url, {
+    method: "GET"
   })
     .then((response) => response.text())
     .then((result) => console.log(result))
@@ -41,6 +81,6 @@ const handleAnalytics = async () => {
 if (window) {
   console.warn("I am still alive.");
   handleAnalytics().catch((err) =>
-    console.error("Error occured: ", err.message),
+    console.error("Error occured: ", err.message)
   );
 }

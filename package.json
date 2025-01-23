@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Bright Analytics for a smarter tomorrow.",
   "scripts": {
-    "start:services": "docker-compose up",
-    "stop:services": "docker-compose down",
+    "start:services": "concurrently --names \"analytics-api,pageview-api,queue-worker,script-server\" --prefix-colors \"red,green,yellow,blue\" \"npm run start --prefix apps/analytics-api\" \"npm run start --prefix apps/pageview-api\" \"npm run start --prefix apps/queue-worker\" \"npm run start --prefix apps/script-server\"",
+    "build:services": "concurrently --names \"analytics-api,pageview-api,queue-worker,script-server\" --prefix-colors \"red,green,yellow,blue\" \"npm run build --prefix apps/analytics-api\" \"npm run build --prefix apps/pageview-api\" \"npm run build --prefix apps/queue-worker\" \"npm run build --prefix apps/script-server\"",
     "lint": "eslint 'apps/**/*.ts' 'libs/**/*.ts'",
     "format": "prettier --write 'apps/**/*.{ts,tsx,js,json,md}' 'libs/**/*.{ts,tsx,js,json,md}'",
     "build": "lerna run build",
