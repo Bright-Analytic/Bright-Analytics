@@ -115,8 +115,5 @@
     "index.ts",
     "Types.d.ts",
     "src/public"
-  ],
-  "files": [
-    "src/public/simple.gif"
   ]
 }
