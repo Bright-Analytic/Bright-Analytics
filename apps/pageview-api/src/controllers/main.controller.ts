@@ -67,7 +67,7 @@ const collect = asyncHandler(async (req, res, _) => {
     uid: uid?.toString(),
     ty: type?.toString(),
     tm: time ? Number(time) : undefined,
-    r: referrer?.toString(),
+    r: referrer ? referrer.toString().trim() == "" ? undefined : referrer.toString() : undefined,
     ir: is_robot,
     ip: ip?.toString(),
     bn: browser_name,

@@ -7,14 +7,15 @@ const handleAnalytics = async () => {
     let bsid = sessionStorage.getItem(SESSION_ID_KEY);
     if (!bsid) {
       sessionStorage.setItem(SESSION_ID_KEY, crypto.randomUUID());
-      return "0";
-    } else {
       return "1";
+    } else {
+      return "0";
     }
   }
 
   function getSessionId() {
     let bsid = sessionStorage.getItem(SESSION_ID_KEY);
+    if(bsid) return bsid;
     const id = crypto.randomUUID();
     if (!bsid) sessionStorage.setItem(SESSION_ID_KEY, id);
     return id;
