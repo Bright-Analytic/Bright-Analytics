@@ -8,7 +8,7 @@ type DataToQueue = {
   [key: string]: string | undefined | boolean | number;
 };
 
-const gifPath = path.join(__dirname, "../public", "simple.gif")
+const gifPath = path.join(__dirname, "../public", "simple.gif");
 
 const collect = asyncHandler(async (req, res, _) => {
   const {
@@ -34,7 +34,7 @@ const collect = asyncHandler(async (req, res, _) => {
     utm_campaign,
     utm_content,
     utm_term,
-    document_referrer
+    document_referrer,
   } = req.query;
 
   // extracted data
@@ -53,7 +53,7 @@ const collect = asyncHandler(async (req, res, _) => {
   const dataToQueue: DataToQueue = {
     hn: hostname?.toString(),
     ua: ua?.toString(),
-    s: https?.toString(),
+    s: https ? (https == "1" ? true : false) : undefined,
     tz: timezone?.toString(),
     pid: page_id?.toString(),
     sid: session_id?.toString(),
@@ -63,7 +63,7 @@ const collect = asyncHandler(async (req, res, _) => {
     l: language?.toString(),
     sw: screen_width ? Number(screen_width) : undefined,
     sh: screen_height ? Number(screen_height) : undefined,
-    u: unique ? unique == "1" ? true : false : undefined,
+    u: unique ? (unique == "1" ? true : false) : undefined,
     uid: uid?.toString(),
     ty: type?.toString(),
     tm: time ? Number(time) : undefined,
@@ -80,7 +80,7 @@ const collect = asyncHandler(async (req, res, _) => {
     ut_ca: utm_campaign?.toString(),
     ut_co: utm_content?.toString(),
     ut_t: utm_term?.toString(),
-    doc_ref: document_referrer?.toString()
+    doc_ref: document_referrer?.toString(),
   };
 
   if (!hostname) throw new ApiError(400, "could not get hostname.");
@@ -110,27 +110,4 @@ const collect = asyncHandler(async (req, res, _) => {
   return res.status(200).sendFile(gifPath);
 });
 
-export {
-    collect
-}
-
-/*
-hostname=
-ua=
-https=
-timezone=
-page_id=
-session_id=
-sri=
-path=
-viewport_width=
-viewport_height=
-language=
-screen_width=
-screen_height=
-unique=
-id=
-type= 
-time=
-referrer=
-*/
+export { collect };

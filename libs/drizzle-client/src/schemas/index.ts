@@ -3,8 +3,8 @@ import {
     pgTable,
     timestamp,
     varchar,
-    bigint,
     boolean,
+    bigint
   } from "drizzle-orm/pg-core";
   
   const timestamps = {
@@ -38,9 +38,9 @@ import {
   
   export const rawAnalytics = pgTable("raw_analytics", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
-    hn: varchar({ length: 255 }),
+    hn: varchar({ length: 255 }).notNull(),
     ua: varchar({ length: 255 }), 
-    s: varchar({ length: 255 }),
+    s: boolean(),
     tz: varchar({ length: 255 }),
     pid: varchar(),
     sid: varchar({ length: 255 }),
@@ -50,12 +50,12 @@ import {
     l: varchar({ length: 255 }),
     sw: integer(),
     sh: integer(),
-    tm: integer(),
-    u: varchar({ length: 255 }),
+    tm: bigint({ mode: "bigint" }),
+    u: boolean(),
     uid: varchar({ length: 255 }),
     ty: varchar({ length: 255 }),
     r: varchar({ length: 255 }),
-    ir: varchar({ length: 255 }),
+    ir: boolean(),
     ip: varchar({ length: 255 }),
     bn: varchar({ length: 255 }),
     bv: varchar({ length: 255 }),
