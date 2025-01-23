@@ -5,7 +5,7 @@ import { ApiError } from "../lib/ApiError";
 import { KafkaClient } from "@shared/kafka-client";
 
 type DataToQueue = {
-  [key: string]: string | undefined | boolean;
+  [key: string]: string | undefined | boolean | number;
 };
 
 const gifPath = path.join(__dirname, "../public", "simple.gif")
@@ -58,15 +58,15 @@ const collect = asyncHandler(async (req, res, _) => {
     pid: page_id?.toString(),
     sid: session_id?.toString(),
     p: path?.toString(),
-    vh: viewport_height?.toString(),
-    vw: viewport_width?.toString(),
+    vh: viewport_height ? Number(viewport_height) : undefined,
+    vw: viewport_width ? Number(viewport_width) : undefined,
     l: language?.toString(),
-    sw: screen_width?.toString(),
-    sh: screen_height?.toString(),
-    u: unique?.toString(),
+    sw: screen_width ? Number(screen_width) : undefined,
+    sh: screen_height ? Number(screen_height) : undefined,
+    u: unique ? unique == "1" ? true : false : undefined,
     uid: uid?.toString(),
     ty: type?.toString(),
-    tm: time?.toString(),
+    tm: time ? Number(time) : undefined,
     r: referrer?.toString(),
     ir: is_robot,
     ip: ip?.toString(),
