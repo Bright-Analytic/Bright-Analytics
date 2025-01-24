@@ -1,20 +1,27 @@
-import express from "express";
-import cors from "cors";
-import cookieParser from "cookie-parser";
-import morgan from "morgan";
-import { ApiResponse } from "./lib/ApiResponse";
+import { authMiddleware } from "./middleware/auth.middleware";
 import { clerkMiddleware } from "@clerk/express";
+import { ApiResponse } from "./lib/ApiResponse";
+import { config } from "dotenv";
+
+import cookieParser from "cookie-parser";
+import express from "express";
+import morgan from "morgan";
+import cors from "cors";
+
+config({
+  path: "../../.env",
+});
 
 const app = express();
 
 app.use(
   cors({
-    origin: [
-      "*"
-    ],
+    origin: ["*"],
     credentials: true,
-  }),
+  })
 );
+
+app.use(authMiddleware)
 
 app.use(morgan("combined"));
 app.use(express.json({ limit: "16kb" }));
@@ -24,7 +31,10 @@ app.use(cookieParser());
 app.use(
   clerkMiddleware({
     debug: true,
-  }),
+    publishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!,
+    secretKey: process.env.CLERK_ENCRYPTION_KEY!,
+    authorizedParties: ["*"],
+  })
 );
 
 app.get("/", (req, res) => {
@@ -35,12 +45,12 @@ app.get("/", (req, res) => {
 import mainRoute from "./routes/main.route";
 import userRoute from "./routes/user.route";
 import hostRoute from "./routes/host.route";
-import webhookRoute from './routes/webhook.route';
+import webhookRoute from "./routes/webhook.route";
 
 // Routes declarations
 app.use("/api/v1/", mainRoute);
 app.use("/api/v1/host", hostRoute);
 app.use("/api/v1/user", userRoute);
-app.use("/api/v1/webhook", webhookRoute)
+app.use("/api/v1/webhook", webhookRoute);
 
 export { app };
