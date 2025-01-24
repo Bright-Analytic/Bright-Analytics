@@ -33,10 +33,14 @@ app.get("/", (req, res) => {
 
 // routes import
 import mainRoute from "./routes/main.route";
+import userRoute from "./routes/user.route";
 import hostRoute from "./routes/host.route";
+import webhookRoute from './routes/webhook.route';
 
 // Routes declarations
 app.use("/api/v1/", mainRoute);
 app.use("/api/v1/host", hostRoute);
+app.use("/api/v1/user", userRoute);
+app.use("/api/v1/webhook", webhookRoute)
 
 export { app };

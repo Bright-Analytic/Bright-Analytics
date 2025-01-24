@@ -35,7 +35,8 @@
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.38.3",
     "express": "^4.21.2",
-    "ioredis": "^5.4.2"
+    "ioredis": "^5.4.2",
+    "svix": "^1.45.1"
   },
   "devDependencies": {
     "@types/amqplib": "^0.10.6",
