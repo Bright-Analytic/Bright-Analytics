@@ -143,9 +143,6 @@ const createNewUser = async (payload: any) => {
       .returning()
       .execute();
   
-    if (result2.length <= 0)
-      return new ApiError(400, "failed to deleted hostname.");
-  
     const result4 = await orm.db
       .delete(unverifiedHostnameTable)
       .where(eq(unverifiedHostnameTable.user_id, result1[0].id))
