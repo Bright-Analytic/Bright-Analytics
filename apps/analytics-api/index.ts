@@ -5,7 +5,7 @@ dotenv.config({
   path: "../../.env",
 });
 
-const port = process.env.ANALYTICS_API_PORT || 3000;
+const port = process.env.PORT ?? process.env.ANALYTICS_API_PORT;
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
