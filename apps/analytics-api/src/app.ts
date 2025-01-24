@@ -21,8 +21,6 @@ app.use(
   })
 );
 
-app.use(authMiddleware)
-
 app.use(morgan("combined"));
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
@@ -48,9 +46,9 @@ import hostRoute from "./routes/host.route";
 import webhookRoute from "./routes/webhook.route";
 
 // Routes declarations
-app.use("/api/v1/", mainRoute);
-app.use("/api/v1/host", hostRoute);
-app.use("/api/v1/user", userRoute);
+app.use("/api/v1/", authMiddleware, mainRoute);
+app.use("/api/v1/host", authMiddleware, hostRoute);
+app.use("/api/v1/user", authMiddleware , userRoute);
 app.use("/api/v1/webhook", webhookRoute);
 
 export { app };
