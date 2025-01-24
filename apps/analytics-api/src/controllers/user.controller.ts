@@ -2,14 +2,13 @@ import { DrizzleDb } from "@shared/drizzle-client";
 import { ApiError } from "../lib/ApiError";
 import { asyncHandler } from "../lib/asyncHandler";
 import { schemas } from "@shared/drizzle-client";
-import { eq, or, sql } from "drizzle-orm";
+import { eq, or } from "drizzle-orm";
 import { ApiResponse } from "../lib/ApiResponse";
 import {
   unverifiedHostnameTable,
   usersTable,
   verifiedHostnameTable,
 } from "@shared/drizzle-client/dist/schemas";
-import { clerkClient } from "@clerk/express";
 
 const getUserData = asyncHandler(async (req, res, next) => {
   const authObject = req.auth;
@@ -209,3 +208,12 @@ const cascadeDeleteUser = asyncHandler(async (req, res, next) => {
         })
     )
 });
+
+
+export {
+    getUserData,
+    createNewUser,
+    updateUserDetails,
+    deleteUser,
+    cascadeDeleteUser
+}
