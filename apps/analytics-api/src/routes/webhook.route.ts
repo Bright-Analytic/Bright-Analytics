@@ -4,6 +4,6 @@ import { svixMiddleware } from "../middleware/swix.middleware";
 
 const router = Router();
 
-router.route('/clerk').post(userWebhookRequestHandler);
+router.route('/clerk').post(svixMiddleware ,userWebhookRequestHandler);
 
 export default router;
