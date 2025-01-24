@@ -174,11 +174,12 @@ const createNewUser = async (payload: any) => {
     if(!evt)
       return new ApiError(401, "Unauthorized");
 
+    console.log("Handling user webhook request.")
     switch (evt.type) {
       case "user.created":
         if (!(evt.data.primary_email_address_id && evt.data.username))
           throw new ApiError(400, "username or email_id not found.")
-  
+        console.log("Creating new user", evt.data)
         // create new user
         const createReq = await createNewUser({
           first_name: evt.data.first_name ?? "",
