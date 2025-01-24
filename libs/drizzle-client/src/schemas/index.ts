@@ -19,6 +19,7 @@ import {
     email: varchar({ length: 255 }).notNull().unique(),
     username: varchar({ length: 255 }).notNull(),
     clerk_uid: varchar({ length: 255 }).notNull().unique(),
+    deleted_at: timestamp(),
     ...timestamps,
   });
   
