@@ -16,7 +16,7 @@ const createNewUser = async (payload: any) => {
       return new ApiError(400, "All fields are required");
   
     const rorm = new DrizzleDb({
-      replicadb: true,
+      replicadb: true
     });
   
     const result1 = await rorm.db
@@ -171,7 +171,7 @@ const createNewUser = async (payload: any) => {
   
   const userWebhookRequestHandler = asyncHandler(async (req, res, next)=>{
     const evt = req.evt;
-    if(!evt)
+    if(!evt?.type)
       return new ApiError(401, "Unauthorized");
 
     console.log("Handling user webhook request.")
@@ -190,7 +190,8 @@ const createNewUser = async (payload: any) => {
           username: evt.data.username,
           clerk_uid: evt.data.id,
         })
-        res.status(createReq.statusCode).json(createReq)
+        const statusCode = createReq.statusCode;
+        return res.status(statusCode).json(createReq).end();
         
   
       // update user details
@@ -203,12 +204,14 @@ const createNewUser = async (payload: any) => {
           )[0].email_address,
           username: evt.data.username ?? "",
         }, evt.data.id)
-        res.status(updateReq.statusCode).json(updateReq)
+        return res.status(updateReq.statusCode).json(updateReq)
   
         // cascade delete user
       case "user.deleted":
         const cascadeDeleteReq = await cascadeDeleteUser(evt.data.id ?? "");
-        res.status(cascadeDeleteReq.statusCode).json(cascadeDeleteReq)
+        return res.status(cascadeDeleteReq.statusCode).json(cascadeDeleteReq)
+      default:
+        return res.status(400).json(new ApiError(400, "Case does not match."))
     }
   })
 

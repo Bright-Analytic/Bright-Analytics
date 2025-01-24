@@ -1,8 +1,9 @@
-export class ApiError extends Error {
+class ApiError extends Error {
   statusCode: number;
   success: boolean;
   errors: any[];
   data: any;
+  message: string;
 
   constructor(
     statusCode: number,
@@ -10,7 +11,7 @@ export class ApiError extends Error {
     errors: any[] = [],
     stack: string = "",
   ) {
-    super(message);
+    super();
     this.statusCode = statusCode;
     this.data = null;
     this.message = message;
@@ -24,3 +25,5 @@ export class ApiError extends Error {
     }
   }
 }
+
+export {ApiError}
