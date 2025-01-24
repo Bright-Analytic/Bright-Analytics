@@ -22,7 +22,7 @@ export const svixMiddleware = asyncHandler(async (req, res, next) => {
 
     // If there are no headers, error out
     if (!svix_id || !svix_timestamp || !svix_signature) {
-      throw new ApiError(401, "Unauthorized");
+      throw new ApiError(401, "Unauthorized: Failed to get svix headers.");
     }
 
     let evt: WebhookEvent;
@@ -34,7 +34,7 @@ export const svixMiddleware = asyncHandler(async (req, res, next) => {
         "svix-signature": svix_signature.toString()
       }) as WebhookEvent;
     } catch (err: any) {
-        throw new ApiError(401, err.message ?? "Unauthorized");
+        throw new ApiError(401, err.message ?? "Unauthorized: Failed to verify webhook.");
     }
     req.evt = evt;
     next();

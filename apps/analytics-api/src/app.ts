@@ -46,7 +46,7 @@ import hostRoute from "./routes/host.route";
 import webhookRoute from "./routes/webhook.route";
 
 // Routes declarations
-app.use("/api/v1/", authMiddleware, mainRoute);
+app.use("/api/v1/analytics", authMiddleware, mainRoute);
 app.use("/api/v1/host", authMiddleware, hostRoute);
 app.use("/api/v1/user", authMiddleware , userRoute);
 app.use("/api/v1/webhook", webhookRoute);
